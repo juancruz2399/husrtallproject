@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.80.0">
+    <title>Seleccione para evaluar por tipos de equipo</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/pricing/">
+	
+	<script th:src = "@{/js/chart.js}"></script>
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="../static/ccs/bootstrap.min.css" rel="stylesheet"th:href="@{/css/bootstrap.min.css}">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="../static/css/pricing.css" rel="stylesheet" th:href="@{/css/pricing.css}">
+  </head>
+  <body>
+    
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
+    <div class="container-fluid">
+      <a class="navbar-brand" th:href="@{/producto}">HRCatch</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExample04">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" th:href="@{/producto}">Atras</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/clasificacion}">Clasificación</a>
+          </li>        
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/semaforizacion}">Semaforización</a>
+          </li>
+           <li class="nav-item">
+            <a class="nav-link" th:href="@{/usuarios}">Usuarios</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-bs-toggle="dropdown" aria-expanded="false">Más</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdown04">
+              <li><a class="dropdown-item" href="mailto:david.cruz@udea.edu.co">Soporte, quejas y reclamos</a></li>
+              <li><a class="dropdown-item" href="https://www.youtube.com/watch?v=tCHhrFIZrRA&list=PL99rVemgq-J5bg7nqCtfQeN5eqgM_GPVd">Youtube tuto</a></li>
+        
+            </ul>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+
+<main class="container">
+  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Indicadores HUSRT</h1>
+    <p class="lead">Indique el rango de fechas para realizar el cálculo</p>
+  </div>
+ 
+  <form th:action="@{/indicadores}" method="post">
+  	<div class="row">
+  		<div class="col-md-3">
+  			<label for = "fechainicialind">Fecha inicial</label>
+            <input th:name="fecha_inicial" type = "date"id="fechainicialind" class = "form-control" required>
+  		</div>
+  		<div class="col-md-3">
+  			<label for = "fechafinalind">Fecha final</label>
+            <input th:name="fecha_final" type = "date"id="fechafinalind" class = "form-control" required>
+  		</div>
+  		<div class="col-md-4" style = "text-align: center;">
+  			<br><small><small><small> Nota: No se incluye el dia de la fecha final en el cálculo</small></small> </small>
+  			
+  		
+  		</div>
+  		<div class="col-md-1">
+  			<label >&nbsp</label>
+  			<button type="submit" class="w-200 btn btn-dark">Buscar</button>
+  		</div>
+  	</div>
+  	<hr class="my-4">
+  	<div class="row">
+  		<div class="col-md-12 mb-3" style="text-align: center;">
+			<h4 th:text="${fechaanterior}+' a '+${fechaactual}"></h4>
+  		</div>
+  		<div class="col-md-6">
+  			<h4>Tabla de indicadores</h4>
+  			<div class="table-responsive">
+  				<table class="table table-hover">
+  					<thead>
+  						<tr>
+	  						<th scope = "col">Nombre indicador</th>
+	  						<th scope = "col">Relación</th>
+	  						<th scope = "col">Resultado</th>
+  						</tr>
+  					</thead>
+  					<tbody>
+  						<tr>
+  							<td>1</td>
+  							<td>Correctivos/Predictivos</td>
+  							<td th:text="${correctivosmactual}+'/'+${predictivosmactual} +' = '+${correcvspredic}"></td>
+  						</tr>
+  						<tr>
+  							<td>2</td>
+  							<td>Correctivos/Preventivos</td>
+  							<td th:text= "${correctivosmactual}+'/'+${preventivosmactual} +' = '+${correcvspreven}"></td>
+  						</tr>
+  						<tr>
+  							<td>3</td>
+  							<td>Correctivos mes actual/Correctivos mes anterior</td>
+  							<td th:text="${correctivosmactual}+'/'+${correctivosmpasado} +' = '+${correctivos}"></td>
+  						</tr>
+  						<tr>
+  							<td>4</td>
+  							<td>Cumplimiento preventivos/previstos</td>
+  							<td th:text= "${preventivosmactual}+'/'+${mantprevistos}+' = '+${prevenvsprevistos}"></td>
+  						</tr>
+  						<tr>
+  							<td>5</td>
+  							<td>Tiempo de respuesta </td>
+  							<td th:text= "${tiempoderespuesta}"></td>
+  						</tr>
+  						<tr>
+  							<td>6</td>
+  							<td>Operación indebida/Correctivos</td>
+  							<td th:text="${correctivosopindebida}+'/'+${correctivosmactual}+' = '+${opincorrecvscorrecactual}"></td>
+  						</tr>
+  						<tr>
+  							<td>7</td>
+  							<td>Causa externa/Correctivos</td>
+  							<td th:text="${correctivoscausaexterna}+'/'+${correctivosmactual} +' = '+${causaexcorrecvscorrecactual}"></td>
+  						</tr>
+  						
+  					</tbody>
+  				</table>
+  			</div>
+  		</div>
+  		<div class="col-md-6">
+  			
+  			<div class = "row">
+  				<div class= "col-md-6">
+  					<canvas id = "piemttotype" width = "50" height = "50"></canvas>
+  					
+  					
+  					<h6>Tipo de mantenimiento</h6>
+  					
+  				</div>
+  				<div class = "col-md-6">
+  					
+  					<canvas id="pietypefbycorrectivo" width = "50" height = "50"></canvas>
+  					
+  					<h6>Tipo de falla correctivos</h6>
+  				</div>
+  				<div class = "col-md-12" style="height: 20;">
+  					<canvas id = "pietypefailure" width = "30" height = "30"></canvas>
+  					
+  					<h5 style = "text-align:center;" >Tipo de falla </h5>
+  				</div>
+  				
+  			</div>
+  			
+  		</div>
+  		
+  	</div>
+  	
+    
+ 
+  </form>
+
+  
+    
+        
+  <footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <div class="row">
+      <div class="col-12 col-md">
+     
+        <small class="d-block mb-3 text-muted"> 2022</small>
+      </div>
+    
+    </div>
+  </footer>
+</main>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+    
+  </body>
+  <script th:inline = "javascript">
+  /*<![CDATA[*/
+  	var Pietipomtto = document.getElementById("piemttotype").getContext("2d");
+  	var Pietipofalla = document.getElementById("pietypefailure").getContext("2d");
+  	var Pietipofallac = document.getElementById("pietypefbycorrectivo").getContext("2d");
+  	var predictivo = /*[[${predictivosmactual}]]*/ 'default';
+  	var correctivo = /*[[${correctivosmactual}]]*/ 'default';
+  	var preventivo = /*[[${preventivosmactual}]]*/ 'default';
+  	var otrosm = /*[[${otrosmactual}]]*/ 'default';
+  	var desgaste = /*[[${desgaste}]]*/ 'default';
+	var opindebida = /*[[${opindebida}]]*/ 'default';
+	var causaexterna = /*[[${causaexterna}]]*/ 'default';
+	var accesorios = /*[[${accesorios}]]*/ 'default';
+	var desconocido = /*[[${desconocido}]]*/ 'default';
+	var sinfallas = /*[[${sinfallas}]]*/ 'default';
+	var otro = /*[[${otros}]]*/ 'default';
+	
+	var desgastec = /*[[${correctivosdesgaste}]]*/ 'default';
+	var opindebidac = /*[[${correctivosopindebida}]]*/ 'default';
+	var causaexternac = /*[[${correctivoscausaexterna}]]*/ 'default';
+	var accesoriosc = /*[[${correctivosaccesorios}]]*/ 'default';
+	var desconocidoc = /*[[${correctivosdesconocido}]]*/ 'default';
+	var sinfallasc = /*[[${correctivossinfallas}]]*/ 'default';
+	var otroc = /*[[${correctivosotros}]]*/ 'default';
+	
+  	var chart = new Chart(Pietipomtto,{
+		type: "pie",
+		data:{
+			labels:['Preventivos','Correctivos','Predictivos','Otros    '],
+			datasets:[{
+					label:"Tipo de mantenimiento en el rango de fechas",
+					data:[preventivo,correctivo,predictivo,otrosm],
+					backgroundColor:['rgb(59,131,189)','rgb(255,0,0)','rgb(0,143,57)','rgb(255,164,32)'],
+					hoverOffset:4
+					
+				}]
+		}
+	});
+	var chart2 = new Chart(Pietipofalla,{
+		type: "bar",
+		data:{
+			labels:['Desgaste','Operación indebida','Causa externa','Accesorios','Desconocido','Sin fallas','Otro'],
+			datasets:[{
+					label:"Tipo falla",
+					data:[desgaste,opindebida,causaexterna,accesorios,desconocido,sinfallas,otro],
+					backgroundColor:['rgb(255,225,53)','rgb(139,0,0)','rgb(244,70,17)','rgb(144,238,144)','rgb(130,130,130)','rgb(0,143,57)','rgb(87,35,100)'],
+					hoverOffset:4
+					
+				}]
+		},
+		options:{
+			scales:{
+				y:{
+					beginAtZero:true
+				}
+			}
+			
+		}
+	});
+	var chart3 = new Chart(Pietipofallac,{
+		type: "pie",
+		data:{
+			labels:['Desgaste','Operación indebida','Causa externa','Accesorios','Desconocido','Sin fallas','Otro'],
+			datasets:[{
+					label:"Tipo falla correctivos",
+					data:[desgastec,opindebidac,causaexternac,accesoriosc,desconocidoc,sinfallasc,otroc],
+					backgroundColor:['rgb(255,225,53)','rgb(139,0,0)','rgb(244,70,17)','rgb(144,238,144)','rgb(130,130,130)','rgb(0,143,57)','rgb(87,35,100)'],
+					hoverOffset:4
+					
+				}]
+		}
+	});
+	
+	/*]]>*/
+  </script>
+ 
+</html>

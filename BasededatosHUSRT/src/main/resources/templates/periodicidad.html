@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.80.0">
+    <title>Reportes</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/checkout/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="../static/ccs/bootstrap.min.css" rel="stylesheet"th:href="@{/css/bootstrap.min.css}">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style> 
+    <!-- Custom styles for this template -->
+    <link href="../static/css/form-validation.css" rel="stylesheet" th:href="@{/css/form-validation.css}">
+  </head>
+  <body class="bg-light">
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark" aria-label="Sixth navbar example">
+    <div class="container-fluid">
+      <a class="navbar-brand" th:href="@{/producto}">Reportes</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample06" aria-controls="navbarsExample06" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExample06">
+        <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page"th:href="@{/producto}" >Atras</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/clasificacion}">Clasificacion</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/semaforizacion}">Semaforización</a>
+          </li>
+          <li class= "nav-item">
+            <a class= "nav-link"th:href="@{/usuarios}" >Usuarios</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-bs-toggle="dropdown" aria-expanded="false">Más información</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdown06">
+              <li><a class="dropdown-item" href="mailto:david.cruz@udea.edu.co">Soporte, quejas y reclamos</a></li>
+              <li><a class="dropdown-item" href="https://www.youtube.com/watch?v=tCHhrFIZrRA&list=PL99rVemgq-J5bg7nqCtfQeN5eqgM_GPVd">Youtube tuto</a></li>
+     
+            </ul>
+          </li>
+        </ul>
+        
+      </div>
+    </div>
+  </nav>      
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+
+      <h2>Periodicidad</h2>
+      <p class="lead">Seleccione equipo de acuerdo a la periodicidad del mantenimineto preventivo</p>
+    </div>
+<div class= "row">
+<div class="col-md-4" align = "center">
+	  <p class = "lead">Busqueda por tipo de equipo</p>
+    
+      <div class="my-2 py-2">
+        <a class="btn btn-outline-secondary" th:href="@{/trimestral}">TRIMESTRAL</a>
+      </div>
+  
+       
+      <div class="my-2 py-2">
+        <a class="btn btn-outline-secondary"th:href="@{/cuatrimestral}" >CUATRIMESTRAL</a>
+      </div>
+
+       
+      <div class="my-2 py-2">
+        <a class="btn btn-outline-secondary" th:href="@{/price}">SEMESTRAL</a>
+      </div>
+   
+  
+      <div class="my-2 py-2">
+        <a class="btn btn-outline-secondary" th:href="@{/anual}">ANUAL</a>
+      </div>
+    
+    
+       
+      <div class="my-2 py-2">
+        <a class="btn btn-outline-secondary" th:href="@{/todoslosequipos}">TODOS</a>
+      </div>
+    
+       
+</div>
+<div class = "col-md-4" align = "center">
+	<p class = "lead">Busqueda por servicio</p>
+	<div class="my-2 py-2">
+        <a class="btn btn-outline-secondary" th:href="@{/serviciostrimestrales}">TRIMESTRAL</a>
+      </div>
+  
+       
+      <div class="my-2 py-2">
+        <a class="btn btn-outline-secondary"th:href="@{/servicioscuatrimestrales}" >CUATRIMESTRAL</a>
+      </div>
+
+       
+      <div class="my-2 py-2">
+        <a class="btn btn-outline-secondary" th:href="@{/serviciossemestrales}">SEMESTRAL</a>
+      </div>
+   
+  
+      <div class="my-2 py-2">
+        <a class="btn btn-outline-secondary" th:href="@{/serviciosanuales}">ANUAL</a>
+      </div>
+    
+    
+       
+      <div class="my-2 py-2">
+        <a class="btn btn-outline-secondary" th:href="@{/todoslosservicios}">TODOS</a>
+      </div>
+</div>
+
+<div class="col-md-4">
+	<form autocomplete = "off" th:action="@{/buscadoporserie}"method="post">
+		<p class = "lead">Busqueda por serie</p>
+		<div class = "input-group mb-3">
+			<div class = "autocomplete">
+				<input id = "myInput"name = "mySerie" type = "text" class = "form-control" placeholder="Introduzca la serie">
+				
+			</div>
+			<div class="col-md-1">
+				<button class="btn btn-outline-secondary" type = "submit">BUSCAR</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+</div>
+</main>
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2022 HRCatch</p>
+  </footer>
+</div>
+<script th:inline = "javascript">
+/*<![CDATA[*/
+var listaseries = /*[[${listaseries}]]*/ 'default';
+
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+              b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+      x[i].parentNode.removeChild(x[i]);
+    }
+  }
+}
+/*execute a function when someone clicks in the document:*/
+document.addEventListener("click", function (e) {
+    closeAllLists(e.target);
+});
+}
+autocomplete(document.getElementById("myInput"),listaseries);
+/*]]>*/
+</script>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+    
+  </body>
+</html>
