@@ -68,7 +68,7 @@ public class MantenimientoController {
 		Date fecha_1 = Date.valueOf(fecha1);
 		Date fecha_2 = Date.valueOf(fecha2);
 
-		Usuario usuario = UsuarioService.findOne(idUsuario);
+		
 		
 		model.addAttribute("indicorrec",ReporteService.acorrectivos(fecha_1,fecha_2));
 		model.addAttribute("indiprev",ReporteService.apreventivos(fecha_1,fecha_2));
@@ -83,15 +83,31 @@ public class MantenimientoController {
 		model.addAttribute("indotrosf",ReporteService.fotros(fecha_1,fecha_2));
 		List<Mantenimiento_preventivo> mtto_preventivos = new ArrayList<Mantenimiento_preventivo>();
 		List<Mantenimiento_preventivo> mtto_preventivosop = new ArrayList<Mantenimiento_preventivo>();
-		if(mes1.equals(mes2)) {
-			mtto_preventivos = Mantenimiento_preventivoService.findBytecnico(idUsuario, mes1, ano1);
-			
-			
+		Usuario usuario = new Usuario();
+		if(idUsuario!=1) {
+			usuario = UsuarioService.findOne(idUsuario);
+			model.addAttribute("nombre",usuario.getNombre()+' '+usuario.getApellido());
+			if(mes1.equals(mes2)) {
+				mtto_preventivos = Mantenimiento_preventivoService.findBytecnico(idUsuario, mes1, ano1);
+				
+				
+			}
+			else {
+				
+				mtto_preventivos = Mantenimiento_preventivoService.findBytecnico(idUsuario, mes1, ano1);
+				mtto_preventivosop = Mantenimiento_preventivoService.findBytecnico(idUsuario, mes2, ano2);
+			}
 		}
 		else {
-			
-			mtto_preventivos = Mantenimiento_preventivoService.findBytecnico(idUsuario, mes1, ano1);
-			mtto_preventivosop = Mantenimiento_preventivoService.findBytecnico(idUsuario, mes2, ano2);
+			model.addAttribute("nombre","Todos");
+			if(mes1.equals(mes2)) {
+				mtto_preventivos = Mantenimiento_preventivoService.findbyfecha(mes1, ano1);
+			}
+			else {
+				mtto_preventivos = Mantenimiento_preventivoService.findbyfecha(mes1, ano1);
+				mtto_preventivosop = Mantenimiento_preventivoService.findbyfecha(mes2, ano2);
+			}
+			model.addAttribute("asign","prueba");
 		}
 		int hechos = 0;
 		int sinrealizar = 0;
@@ -178,13 +194,13 @@ public class MantenimientoController {
 				}
 			}
 		}
-		System.out.println(mtto_preventivos.size());
+		
 		float advance = 0;
 		if(mtto_preventivos.size()== 0 || mtto_preventivos==null) {
 			advance = (float)hechos/1;
 		}
 		else {
-			advance = (float)hechos/mtto_preventivos.size();
+			advance = (float)hechos/mtto_preventivo_filt.size();
 		}
 		
 		int advancecolor = 0;
@@ -207,7 +223,7 @@ public class MantenimientoController {
 		model.addAttribute("tiempofaltante",tiempofaltante);
 		model.addAttribute("tiemporealizado",tiemporealizado);
 		
-		model.addAttribute("nombre",usuario.getNombre()+' '+usuario.getApellido());
+		
 		model.addAttribute("listhechos",mtto_hechos);
 		model.addAttribute("listsinrealizar",mtto_sinrealizar);
 		model.addAttribute("hechos",hechos);
@@ -286,6 +302,7 @@ public class MantenimientoController {
 		else {
 			advancecolor=5;
 		}
+		model.addAttribute("asign","prueba");
 		model.addAttribute("tiempototal",tiempototal);
 		model.addAttribute("tiempofaltante",tiempofaltante);
 		model.addAttribute("tiemporealizado",tiemporealizado);

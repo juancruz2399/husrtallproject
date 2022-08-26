@@ -76,7 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 							,"/visualizacionreportes/**","/visualizaciontipoequipo/**","/visualizacionequiposanuales/**"
 							,"/visualizacionequipossemestrales/**","/visualizacionequiposcuatrimestrales/**"
 							,"/visualizacionequipostrimestrales/**","/formatoreporte/**","/visualpdfreport/**"
-							,"/nuevoreporte/**","/download/**").hasAnyAuthority("ADMIN","EDITOR","USER")
+							,"/nuevoreporte/**","/download/**","/usuarios").hasAnyAuthority("ADMIN","EDITOR","USER")
 			.anyRequest()
 			.authenticated()
 			.and()

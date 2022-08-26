@@ -933,8 +933,10 @@
 </div>
 </div>
 </form>
-<button class = "btn btn-danger"onclick="printHTML()">PDF</button>
-<a th:href = "@{/download/}+${idreporte}">Descargar archivo</a>
+<form>
+	<a class = "btn btn-danger" th:href = "@{/download/}+${idreporte}">Descargar archivo PDF</a>
+</form>
+
 
 <!--
 <div id = "hidden-element">
@@ -944,15 +946,7 @@
 </div>
 -->
      
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script>
-		function printHTML() {
-		  if (window.print) {
-		    window.print();
-		  }
-		}
-	</script>
+  
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 
   </body>

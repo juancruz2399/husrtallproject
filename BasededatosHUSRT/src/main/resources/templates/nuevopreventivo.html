@@ -258,6 +258,10 @@
             </div>
 			<div class = "row">
 				<div class="col-md-6">
+		            <h4 class="mb-3">Motivo del llamado</h4>
+		            <textarea class="form-control" rows ="3"onkeyup="mayus(this);" th:field="*{Motivo}" required></textarea>
+				</div>
+				<div class="col-md-6">
 		            <h4 class="mb-3">Trabajo realizado</h4>
 		            <textarea class="form-control"onkeyup="mayus(this);" rows ="3" th:field="*{Trabajo_realizado}" required></textarea>
 				</div>

@@ -114,8 +114,6 @@ public class ProtocoloController {
             SessionStatus status) {
 		
 		Equipo equipo  = EquipoService.findOne(id);
-		System.out.println(codigo);
-		System.out.println(equipo.getCodigo());
 		
 		if(codigo.equals(equipo.getCodigo())) {
 			System.out.println(codigo);
@@ -259,6 +257,7 @@ public class ProtocoloController {
     	
     	Mantenimiento_preventivo mantenimiento_preventivo = Mantenimiento_preventivoService.findOne(idmtto);
     	mantenimiento_preventivo.setReporte(reporte);
+    	mantenimiento_preventivo.setEquipo(equipo);
     	mantenimiento_preventivo.setFecha_realizacion(fechaas);
     	mantenimiento_preventivo.setTiempo_realizacion(totalhoras);
     	mantenimiento_preventivo.setRealizado(true);

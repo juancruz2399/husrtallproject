@@ -107,31 +107,32 @@
 
   
 <main class="container">  
-<form th:action="@{/visualizacionotrosreportes}" method="post">
-  <div class="my-3 p-3 bg-body rounded shadow-sm">
-  	
-    <div class="starter-template text-center py-5 px-3">
-  
-     
-      <p class="lead">A continuación podra visualizar todos los otros reportes</p>
-      <p th:text="'De '+${fecha1}+' a '+${fecha2}"></p>
-    </div>
 
-      <div class = "row mb-3">
-      	<div class="col-md-3">
-  			<label for = "fechainicialind">Fecha inicial</label>
-            <input th:name="fecha_inicial" type = "date"id="fechainicialind" class = "form-control" required>
-  		</div>
-  		<div class="col-md-3">
-  			<label for = "fechafinalind">Fecha final</label>
-            <input th:name="fecha_final" type = "date"id="fechafinalind" class = "form-control" required>
-  		</div>
-  		
-  		<div class = "col-md-3">
-  			<br>
-  			<button type="submit" class="w-200 btn btn btn-dark">Buscar</button>
-  		</div>
-      </div>
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+  	<form th:action="@{/visualizacionotrosreportes}" method="post">
+	    <div class="starter-template text-center py-5 px-3">
+	  
+	     
+	      <p class="lead">A continuación podra visualizar todos los otros reportes</p>
+	      <p th:text="'De '+${fecha1}+' a '+${fecha2}"></p>
+	    </div>
+	
+	      <div class = "row mb-3">
+	      	<div class="col-md-3">
+	  			<label for = "fechainicialind">Fecha inicial</label>
+	            <input th:name="fecha_inicial" type = "date"id="fechainicialind" class = "form-control" required>
+	  		</div>
+	  		<div class="col-md-3">
+	  			<label for = "fechafinalind">Fecha final</label>
+	            <input th:name="fecha_final" type = "date"id="fechafinalind" class = "form-control" required>
+	  		</div>
+	  		
+	  		<div class = "col-md-3">
+	  			<br>
+	  			<button type="submit" class="w-200 btn btn btn-dark">Buscar</button>
+	  		</div>
+	      </div>
+      </form>
       
       <div class="col-md-12 col-lg-12">
         <div class="input-group">
@@ -189,7 +190,7 @@
               </button>
 
               <!-- Modal -->
-              <div class="modal fade" th:id="'staticBackdrop'+${reporte.id_Reporte}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal" th:id="'staticBackdrop'+${reporte.id_Reporte}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -320,6 +321,11 @@
                           <div class="starter-template text-center py-3 px-3">
                             <div class="input-group">
                               <div class="col-md-8">
+                              	<div class="form-group">
+                                	<h5>Motivo del llamado</h5>
+                                
+                                	<textarea class= "form-control" rows = "2" th:text="${reporte.Motivo}"disabled ></textarea>
+                               	</div>
                                	<div class="form-group">
                                 	<h5>Trabajo realizado</h5>
                                 
@@ -352,7 +358,26 @@
                                   <input id = "recibidoporr" type="text" th:placeholder="${reporte.Autor_recibido}" class="form-control" readonly>
                                   
                                   </div> 
-                                </fieldset>                                  
+                                </fieldset> 
+                                <form class="needs-validation" validate method = "post" th:action = "@{/uploadreport/}+${reporte.id_Reporte}" enctype = "multipart/form-data" th:id = "'fileUploadForm'+${reporte.id_Reporte}" >
+                                	<div class = "form-group">
+                                		<label class = "custom-file" th:id = "'custom-file'+${reporte.id_Reporte}">
+                                			<input type = "file" class = "form-control" name = "file" accept = "application/pdf" required>
+                                			<span class = "form-control"></span>
+                                		</label>
+                                		<div class = "form-group">
+	                                		<button type = "submit" class = "btn btn-success">Subir</button>
+	                                		
+                                		</div>
+                                	</div>
+                                </form> 
+                                
+                                <div  th:if="${reporte.Rutapdf}">
+                                	<form method = "get" th:action = "@{/visualpdfreport/}+${reporte.id_Reporte}" enctype = "multipart/form-data" th:id = "'fileUploadForm'+${reporte.id_Reporte}" class = "container">
+                                
+	                                	<button type = "submit" id = "previewBtn" class = "btn btn-primary">Visualizar</button>
+	                            	</form> 
+	                            </div>                                 
                               
                               </div>
                               
@@ -381,7 +406,7 @@
         </div>
         </div>
         </div>
-</form>
+
   <!-- FOOTER -->
   <footer class="container">
     <p class="float-end"><a href="#">Back to top</a></p>

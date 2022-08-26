@@ -521,6 +521,7 @@ public class Criterios_tecnicosController {
 				listacriteriosespecificos.get(indice).setTotal_puntos_economicos(0);
 				listacriterioseconomicos.get(indice).setTotal_puntos_economicos(0);
 				listacriterios.get(indice).setTotal_puntos(punttotal);
+				listacriterios.get(indice).setFecha(Date.valueOf(Current_Date));
 				Criterios_economicosService.save(listacriterioseconomicos.get(indice));
 				Criterios_especificosService.save(listacriteriosespecificos.get(indice));
 				Criterios_tecnicosService.save(listacriteriostecnicos.get(indice));
@@ -612,6 +613,7 @@ public class Criterios_tecnicosController {
 				listacriteriosespecificos.get(indice).setTotal_puntos_economicos(0);
 				listacriterioseconomicos.get(indice).setTotal_puntos_economicos(0);
 				listacriterios.get(indice).setTotal_puntos(punttotal);
+				listacriterios.get(indice).setFecha(Date.valueOf(Current_Date));
 				Criterios_economicosService.save(listacriterioseconomicos.get(indice));
 				Criterios_especificosService.save(listacriteriosespecificos.get(indice));
 				Criterios_tecnicosService.save(listacriteriostecnicos.get(indice));

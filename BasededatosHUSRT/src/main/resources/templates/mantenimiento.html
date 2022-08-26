@@ -94,9 +94,11 @@
 	<div class="col-md-1">
 		<select class="form-select form-select-sm" th:name="usuarioprogramado"id= "tecnico" onchange = "ViewInd();"required>
           <option selected disabled value="">Elegir técnico</option>
-          <div th:each="usuario:${ptomtto}">
+          
+          	<div th:each="usuario:${ptomtto}">
 				<option th:text="${usuario.Nombre}+' '+${usuario.Apellido}" th:value = "${usuario.id_Usuario}"></option>
 			</div>
+			<option value = 1>TODOS</option>
         </select>
 		
 	</div>
@@ -158,6 +160,12 @@
 		          						<th scope = "col">Servicio</th>
 		          						<th scope = "col">Ubicación</th>
 		          	
+		          						
+		          						
+		          						
+		          						<div th:if="${asign}">
+		          							<th scope = "col">Asignado</th>
+		          						</div>
 		          						<th scope = "col">Dia programado</th>
 		          						<th scope = "col">Realizado</th>
 		          					</tr>
@@ -172,6 +180,9 @@
 		          						<td th:text="${equipo.Placa_inventario}"></td>
 		          						<td th:text="${equipo.Servicio}"></td>
 		          						<td th:text="${equipo.Ubicacion}"></td>
+		          						<div th:if="${asign}">
+		          							<td th:text = "${equipo.usuario.Nombre}+' '+ ${equipo.usuario.Apellido}"></td>
+		          						</div>
 
 		          						<td th:text = "${equipo.Dias}"></td>
 		          						<div th:if="${equipo.Realizado==true}">
@@ -503,10 +514,12 @@
 			td1 = tr[i].getElementsByTagName("td")[0];
 			td2 = tr[i].getElementsByTagName("td")[1];
 			td3 = tr[i].getElementsByTagName("td")[2];
+			td4 = tr[i].getElementsByTagName("td")[7];
 			if(td1 || td2 || td3){
 				txtValue1 = td1.textContent || td1.innerText;
 				txtValue2 = td2.textContent || td2.innerText;
 				txtValue3 = td3.textContent || td3.innerText;
+				txtValue4 = td4.textContent || td4.innerText;
 				if((txtValue1.toUpperCase().indexOf(filter))>-1){
 					tr[i].style.display = "";					
 				}
@@ -514,6 +527,9 @@
 					tr[i].style.display = "";					
 				}
 				else if((txtValue3.toUpperCase().indexOf(filter))>-1){
+					tr[i].style.display = "";					
+				}
+				else if((txtValue4.toUpperCase().indexOf(filter))>-1){
 					tr[i].style.display = "";					
 				}
 				else{

@@ -347,13 +347,21 @@ public class CalendarioController {
 			}
 			else if(mes1==4) {
 				equipos = EquipoService.preAbril();
+				int count = 0;
+				
+				System.out.println(equipos.size());
 				for(int indice=0;indice<equipos.size();indice++) {
+					System.out.println(equipos.get(indice).getSerie());
 					ArrayList<String> mesdias = equipos.get(indice).concaten(equipos.get(indice).getDias_mantenimiento(), equipos.get(indice).getMeses_mantenimiento(), equipos.get(indice).getPeriodicidad());
+					System.out.println(mesdias);
+					count+=1;
+					System.out.println(count);
 					ArrayList<Integer> diasmtto=equipos.get(indice).detectarmes_semana(mesdias, mes1);
 					int diainicial  = diasmtto.get(0);
 					int diafinal  = diasmtto.get(1);
 					for(int dia=dia1;dia<dia2+1;dia++) {
 						if(diainicial==dia) {
+						
 							Mantenimiento_preventivo mantenimiento_preventivo =new Mantenimiento_preventivo();
 							mantenimiento_preventivo.setUbicacion(equipos.get(indice).getUbicacion());
 							mantenimiento_preventivo.setTipo_equipo(equipos.get(indice).getTipo_equipo());

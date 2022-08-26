@@ -97,6 +97,11 @@
 		    <artifactId>itextpdf</artifactId>
 		    <version>5.4.2</version>
 		</dependency>
+		<dependency>
+	       <groupId>com.google.firebase</groupId>
+	       <artifactId>firebase-admin</artifactId>
+	       <version>7.0.0</version>
+	  	</dependency>
 				
 		
 		

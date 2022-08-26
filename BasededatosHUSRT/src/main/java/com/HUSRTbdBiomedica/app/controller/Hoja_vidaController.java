@@ -1,15 +1,20 @@
 package com.HUSRTbdBiomedica.app.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,13 +23,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.HUSRTbdBiomedica.app.entity.Equipo;
 import com.HUSRTbdBiomedica.app.entity.Hoja_vida;
+import com.HUSRTbdBiomedica.app.entity.Mantenimiento_preventivo;
+import com.HUSRTbdBiomedica.app.entity.Protocolo_preventivo;
+import com.HUSRTbdBiomedica.app.entity.Reporte;
 import com.HUSRTbdBiomedica.app.entity.Tipo_equipo;
 import com.HUSRTbdBiomedica.service.IEquipoService;
 import com.HUSRTbdBiomedica.service.IHoja_vidaService;
+import com.HUSRTbdBiomedica.service.PdfGenarator;
+import com.HUSRTbdBiomedica.service.UploadFileService;
+import com.lowagie.text.DocumentException;
 
 @Controller
 @SessionAttributes("hoja_vida")
@@ -32,6 +44,9 @@ import com.HUSRTbdBiomedica.service.IHoja_vidaService;
 public class Hoja_vidaController {
 	@Autowired
 	private IHoja_vidaService Hoja_vidaService;
+	
+	@Autowired
+	private UploadFileService uploadFileService;
 	
 	@Autowired
 	private IEquipoService EquipoService;
@@ -105,7 +120,10 @@ public class Hoja_vidaController {
 		hoja_vida.setEquipo(equipo);
 		map.put("hoja_vida", hoja_vida);
 		model.addAttribute("equipo",equipo);
-		
+		model.addAttribute("boughtdate",LocalDate.now());
+		model.addAttribute("installdate",LocalDate.now());
+		model.addAttribute("startdate",LocalDate.now());
+		model.addAttribute("vctodate",LocalDate.now());
 		
 		return "nuevoequipo";
 	}
@@ -117,18 +135,21 @@ public class Hoja_vidaController {
 		Hoja_vida hoja_vida = Hoja_vidaService.findHVbyEquipo(id);
 		map.put("hoja_vida", hoja_vida);
 		model.addAttribute("equipo",equipo);
+		model.addAttribute("boughtdate",hoja_vida.getFecha_compra());
+		model.addAttribute("installdate",hoja_vida.getFecha_instalacion());
+		model.addAttribute("startdate",hoja_vida.getFecha_iniciooperacion());
+		model.addAttribute("vctodate",hoja_vida.getFecha_vencimientogarantia());
 		return  "nuevoequipo";
 	}
 	@PostMapping("/nuevoequipo/{id}")
-	public String guardarnuevahv(@PathVariable(value = "id") Long id,@Valid Hoja_vida hoja_vida,            
+	public String guardarnuevahv(@PathVariable(value = "id") Long id,@Valid Hoja_vida hoja_vida, BindingResult binRes,            
             Model model,
             RedirectAttributes flash,
             @RequestParam(value="fecha_compra",defaultValue = "2022-01-01")String fecha_compra,
             @RequestParam(value="fecha_instalacion",defaultValue = "2022-01-01")String fecha_instalacion,
             @RequestParam(value="fecha_inicio_operacion",defaultValue = "2022-01-01")String fecha_inicio_operacion,
             @RequestParam(value="fecha_vencimiento",defaultValue = "2022-01-01")String fecha_vencimiento,
-            @RequestParam(value="foto",defaultValue = "empty")String foto,
-            SessionStatus status) {
+            @RequestParam(value="foto",defaultValue = "empty")MultipartFile foto) throws IOException {
 		
 		
 		
@@ -147,12 +168,15 @@ public class Hoja_vidaController {
     	hoja_vida.setFecha_vencimientogarantia(fechav);
     	
     	
-		hoja_vida.setEquipo(EquipoService.findOne(id));		
-		String Fotohv = "/images/"+String.valueOf(foto);
+		hoja_vida.setEquipo(EquipoService.findOne(id));	
+		
+		uploadFileService.saveImage(foto, id);
+		String Fotohv = "/images/"+String.valueOf(id)+foto.getOriginalFilename();
 		hoja_vida.setFoto(Fotohv);
+		
+		
 		Hoja_vidaService.save(hoja_vida);
 		
-        status.setComplete();
         flash.addFlashAttribute("success","guardado");
         return "redirect:/matrizhv/"+hoja_vida.getEquipo().getId_Equipo();
 
@@ -182,7 +206,24 @@ public class Hoja_vidaController {
     	model.addAttribute("hoja_vidaequipo",Hoja_vidaService.findHVbyEquipo(id));
 		return "formatohojadevida";
 	}
-	
+	@GetMapping("/downloadHV/{id}")
+    public void downloadFile(HttpServletResponse response,@PathVariable Long id) throws IOException, DocumentException {
+        PdfGenarator generator = new PdfGenarator();
+        Hoja_vida hoja_vida = Hoja_vidaService.findHVbyEquipo(id);
+       
+        byte[] pdfHV = generator.getHVPDF(hoja_vida).toByteArray();
+
+        String mimeType =  "application/pdf";
+        String namefile = String.valueOf(hoja_vida.getEquipo().getId_Equipo())+"_"+hoja_vida.getEquipo().getSerie();
+        response.setContentType(mimeType);
+        response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"",namefile+".pdf"));
+
+        response.setContentLength(pdfHV.length);
+
+        ByteArrayInputStream inStream = new ByteArrayInputStream(pdfHV);
+
+        FileCopyUtils.copy(inStream, response.getOutputStream());
+    }
 	@GetMapping(value ="/hvdatosequipo/{id}")
 	public String showhvdatosgenerales(@PathVariable(value = "id") Long id,
             Model model,

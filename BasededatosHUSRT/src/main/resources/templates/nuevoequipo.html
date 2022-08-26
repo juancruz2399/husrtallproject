@@ -79,7 +79,7 @@
     <div class="row g-3">
         <h4 class="mb-3">Datos del equipo</h4>
         
-        <form class="needs-validation" th:action = "@{/nuevoequipo/}+${equipo.id_Equipo}"th:object="${hoja_vida}"  method="post"validate>
+        <form class="needs-validation" th:action = "@{/nuevoequipo/}+${equipo.id_Equipo}"th:object="${hoja_vida}" enctype = "multipart/form-data" method="post"validate>
         	
           <div class="row g-3">
             <div class="col-md-4">
@@ -122,7 +122,7 @@
               <div class="col-md-3">
               <div class="md-form md-outline input-with-post-icon datepicker" id="translat">
                 <label for= "translat-example">Fecha de compra</label>
-                <input placeholder="Seleccione la fecha" type="date" name = "fecha_compra" class="form-control">
+                <input placeholder="Seleccione la fecha" id = "fc"type="date" name = "fecha_compra" class="form-control">
 
                 
               </div>
@@ -130,14 +130,14 @@
             <div class="col-md-3">
               <div class="md-form md-outline input-with-post-icon datepicker" id="translat">
                 <label for= "translat-example">Fecha de instalación</label>
-                <input placeholder="Seleccione la fecha" type="date" name ="fecha_instalacion" class="form-control">
+                <input placeholder="Seleccione la fecha" id = "fi" type="date" name ="fecha_instalacion" class="form-control">
                 
               </div>
             </div>
             <div class="col-md-3">
               <div class="md-form md-outline input-with-post-icon datepicker" id="translat">
                 <label for= "translat-example">Fecha de inicio de operación</label>
-                <input placeholder="Seleccione la fecha" type="date" name = "fecha_inicio_operacion" class="form-control">
+                <input placeholder="Seleccione la fecha" id = "fo"type="date" name = "fecha_inicio_operacion" class="form-control">
 
                 
               </div>
@@ -145,7 +145,7 @@
             <div class="col-md-3">
               <div class="md-form md-outline input-with-post-icon datepicker" id="translat">
                 <label for= "translat-example">Fecha vencimiento de garantía</label>
-                <input placeholder="Seleccione la fecha"type="date" name = "fecha_vencimiento" class="form-control">
+                <input placeholder="Seleccione la fecha"id = "fg"type="date" name = "fecha_vencimiento" class="form-control">
                                              
               </div>
               </div>
@@ -831,7 +831,7 @@
           <hr class="my-4">
           <h4 class="mb-3">Foto del equipo</h4>        
 	        <label class="form-label" for="customFile">Subir</label>
-	        <input type="file" class="form-control" name ="foto" id="customFile" accept="image/png,.jpeg,.jpg">
+	        <input type="file" class="form-control" name ="foto" id="customFile" accept="image/*">
   
           <hr class="featurette-divider">
               
@@ -852,7 +852,25 @@
    
   </footer>
 </div>
+<script th:inline = "javascript">
+/*<![CDATA[*/
+	var fechac = /*[[${boughtdate}]]*/ 'default';
+	var fechains = /*[[${installdate}]]*/ 'default';
+	var fechainicio = /*[[${startdate}]]*/ 'default';
+	var fechavcto = /*[[${vctodate}]]*/ 'default';
+	
+	var fechacinput = document.getElementById("fc");
 
+	var fechainsinput = document.getElementById("fi");
+	var fechainicioinput = document.getElementById("fo");
+	var fechavctoinput = document.getElementById("fg");
+	
+	fechacinput.value = fechac;
+	fechainsinput.value = fechains;
+	fechainicioinput.value = fechainicio;
+	fechavctoinput.value = fechavcto;
+/*]]>*/
+</script>
 
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src ="@{/js/newequipo.js}"></script>
