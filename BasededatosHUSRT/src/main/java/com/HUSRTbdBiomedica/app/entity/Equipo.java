@@ -105,6 +105,8 @@ public class Equipo implements Serializable{
 	@Column(name = "codigo")
 	private String Codigo;
 	
+	@Column(name = "guia")
+	private String Guia;
 	
 	@JoinColumn(name ="id_tipo_equipo_fk",referencedColumnName ="id_Tipo_equipo")
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -636,6 +638,12 @@ public class Equipo implements Serializable{
 	}
 	public Servicio getServicio() {
 		return servicio;
+	}
+	public String getGuia() {
+		return Guia;
+	}
+	public void setGuia(String guia) {
+		Guia = guia;
 	}
 
 	

@@ -768,4 +768,11 @@ public class EquipoServiceImp implements IEquipoService{
 		return EquipoDao.findEquiposinactivos();
 	}
 
+
+	@Override
+	public List<Integer> countequiposbytipo() {
+	
+		return EquipoDao.countbyTiposEquipo();
+	}
+
 }

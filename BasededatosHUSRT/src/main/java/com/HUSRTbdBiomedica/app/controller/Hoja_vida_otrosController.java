@@ -115,6 +115,98 @@ public class Hoja_vida_otrosController {
 		model.addAttribute("hoja_vida",Hoja_vida_otrosService.findOne(id));
 		return "formatohojadevidaotros";
 	}
+	@GetMapping("/editreporteotro/{id}")
+	public String editarreporteotro(@PathVariable(value="id") Long id,
+			Model model,Map<String, Object> map,
+            RedirectAttributes flash) {
+		Reporte reporte  = ReporteService.findOne(id);
+		Equipo equipo= reporte.getEquipo();
+    	
+    	model.addAttribute("serieequipo",equipo.getSerie());
+    	model.addAttribute("placa",equipo.getPlaca_inventario());
+    	model.addAttribute("servicioequipo",equipo.getServicios());
+    	model.addAttribute("idequipo",equipo.getId_Equipo());
+    	model.addAttribute("ubicacionequipo",equipo.getUbicacion());
+    	model.addAttribute("tipoequipo",equipo.getTipo_equipo());
+    	model.addAttribute("nombreequipo",equipo.getNombre_Equipo());
+    	model.addAttribute("periodicidad",equipo.getPeriodicidad());
+    	map.put("reporte", reporte);
+    
+    	model.addAttribute("equipo", equipo);
+    	
+    	model.addAttribute("numeroreporte",reporte.getNumero_reporte());		
+		
+		model.addAttribute("fecha",reporte.getFecha());
+		model.addAttribute("horallamado",reporte.getHora_llamado());
+		model.addAttribute("horainicio",reporte.getHora_inicio());
+		model.addAttribute("horaterminacion",reporte.getHora_terminacion());
+		return "nuevoreporteditotro";
+	}
+	@PostMapping(value="/editreporteotro")
+    public String guardarnuevoreporteditotro(@RequestParam(value="fecha")String fecha,
+    		@RequestParam(value="hora_llamado",defaultValue = "00:00")String hora_llamado,
+    		@RequestParam(value="hora_inicio",defaultValue = "00:00")String hora_inicio,
+    		@RequestParam(value = "hora_finalizacion",defaultValue = "00:00")String hora_finalizacion,
+    		@Valid Reporte reporte,
+    								  BindingResult result,
+    								  Model model,
+    								  RedirectAttributes flash,
+    								  SessionStatus status) {
+    	
+    	
+    	Equipo equipo = EquipoService.findOne(11111L);
+        
+    	LocalDate fechareporte = LocalDate.parse(fecha);
+    	Date fechaas = Date.valueOf(fechareporte);
+    	
+    	reporte.setFecha(fechaas);
+    	
+    	String hora1 = hora_llamado; 
+    	
+    	Time hl = Time.valueOf(LocalTime.parse(hora1));
+    	reporte.setHora_llamado(hl);
+    	
+    	String hora2 = hora_inicio;
+    	Time hi = Time.valueOf(LocalTime.parse(hora2));
+    	reporte.setHora_inicio(hi);
+    	
+    	String hora3 = hora_finalizacion;
+    	Time hf = Time.valueOf(LocalTime.parse(hora3));
+    	reporte.setHora_terminacion(hf);
+    	
+    	
+    	LocalTime hinicio = hi.toLocalTime();
+    	LocalTime hfinal = hf.toLocalTime();
+    	LocalTime hginalminus = hfinal.minusHours(hinicio.getHour());
+    	LocalTime thora = hginalminus.minusMinutes(hinicio.getMinute());
+    	Time totalhoras = Time.valueOf(thora);
+    	
+    	reporte.setTotal_horas(totalhoras);
+    	
+    	
+    	
+    	reporte.setEquipo(equipo);
+    	
+    	
+    	reporte.setNombre_equipo(equipo.getNombre_Equipo());
+    	reporte.setMarca(equipo.getMarca());
+    	reporte.setModelo(equipo.getModelo());
+    	reporte.setSerie(equipo.getSerie());
+    	reporte.setPlaca_inventario(equipo.getPlaca_inventario());
+    	reporte.setServicio(equipo.getServicios());
+    	reporte.setUbicacion(equipo.getUbicacion());
+    	ReporteService.save(reporte);
+    	
+    	status.setComplete();
+    	
+    	
+    	flash.addFlashAttribute("agregado","Reporte agregado correctamente");
+    	flash.addFlashAttribute("nombreequipo",equipo.getNombre_Equipo());
+    	flash.addFlashAttribute("serieequipo",equipo.getSerie());
+    	
+    	return "redirect:/visualizacionreportes/"+equipo.getId_Equipo();
+    	
+    }
 	@GetMapping("/nuevoreporteotro")
 	public String generarnuevoreporteotro(
 			  Map<String,Object>map,Model model,
@@ -140,16 +232,17 @@ public class Hoja_vida_otrosController {
     	Date fechaas = Date.valueOf(fechareporte);
     	reporte.setFecha(fechaas);
     	
-    	String hora1 = hora_llamado+":00";    	
-    	Time hl = Time.valueOf(hora1);
+    	String hora1 = hora_llamado; 
+    	
+    	Time hl = Time.valueOf(LocalTime.parse(hora1));
     	reporte.setHora_llamado(hl);
     	
-    	String hora2 = hora_inicio+":00";
-    	Time hi = Time.valueOf(hora2);
+    	String hora2 = hora_inicio;
+    	Time hi = Time.valueOf(LocalTime.parse(hora2));
     	reporte.setHora_inicio(hi);
     	
-    	String hora3 = hora_finalizacion+":00";
-    	Time hf = Time.valueOf(hora3);
+    	String hora3 = hora_finalizacion;
+    	Time hf = Time.valueOf(LocalTime.parse(hora3));
     	reporte.setHora_terminacion(hf);
     	
     	

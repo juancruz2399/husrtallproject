@@ -2505,7 +2505,7 @@ public class PdfGenarator {
         tablatecnica.setSpacingAfter(10);
         //table class
         Chunk riesgotstyle = new Chunk("RIESGO:");
-        riesgotstyle.setFont(writers);
+        riesgotstyle.setFont(fuenteEnunciados);
         
         Chunk riesgoistyle = new Chunk("I:");
         riesgoistyle.setFont(rta);
@@ -2520,7 +2520,7 @@ public class PdfGenarator {
         riesgoiiistyle.setFont(rta);
         
         Chunk tecpredstyle = new Chunk("CLASE DE TECNOLOGÍA PREDOMINANTE:");
-        tecpredstyle.setFont(rta);
+        tecpredstyle.setFont(fuenteEnunciados);
         
         Chunk celecstyle = new Chunk("ELÉCTRICO:");
         celecstyle.setFont(rta);
@@ -2532,7 +2532,7 @@ public class PdfGenarator {
         cmecstyle.setFont(rta);
         
         Chunk celectromecstyle = new Chunk("ELECTROMECÁNICO:");
-        celectromecstyle.setFont(rta);
+        celectromecstyle.setFont(rtasmall);
         
         Chunk chidstyle = new Chunk("HIDRAÚLICO:");
         chidstyle.setFont(rta);
@@ -2547,7 +2547,7 @@ public class PdfGenarator {
         csolstyle.setFont(rta);
         
         Chunk periodstyle = new Chunk("PERIODICIDAD DEL MANTENIMIENTO:");
-        periodstyle.setFont(rta);
+        periodstyle.setFont(fuenteEnunciados);
         
         Chunk ptristyle = new Chunk("TRIMESTRAL:");
         ptristyle.setFont(rta);
@@ -2562,7 +2562,7 @@ public class PdfGenarator {
         panualstyle.setFont(rta);
         
         Chunk responmttostyle = new Chunk("MANTENIMIENTO ACTUAL:");
-        responmttostyle.setFont(rta);
+        responmttostyle.setFont(fuenteEnunciados);
         
         Chunk mttopropstyle = new Chunk("PROPIO:");
         mttopropstyle.setFont(rta);
@@ -2576,27 +2576,26 @@ public class PdfGenarator {
         Chunk mttogarstyle = new Chunk("GARANTÍA:");
         mttogarstyle.setFont(rta);
         
-        Chunk biomedicstyle = new Chunk("CLASIFICACIÓN BIOMÉDICA:");
-        usoapostyle.setFont(rta);
         
-        PdfPTable tablaclass = new PdfPTable(14);
+        
+        PdfPTable tablaclass = new PdfPTable(18);
         
         //firstrowclass
         PdfPCell tecnopredcell = new PdfPCell(new Phrase(tecpredstyle));
-        tecnopredcell.setColspan(6);
+        tecnopredcell.setColspan(8);
         PdfPCell riesgocell = new PdfPCell(new Phrase(riesgotstyle));
         riesgocell.setColspan(2);
         PdfPCell freqmttocell = new PdfPCell(new Phrase(periodstyle));
-        freqmttocell.setColspan(3);
+        freqmttocell.setColspan(4);
         PdfPCell responmttocell = new PdfPCell(new Phrase(responmttostyle));
-        responmttocell.setColspan(3);
+        responmttocell.setColspan(4);
         tablaclass.addCell(tecnopredcell);
         tablaclass.addCell(riesgocell);
         tablaclass.addCell(freqmttocell);
         tablaclass.addCell(responmttocell);
         //secondrowclass
         tecnopredcell = new PdfPCell(new Phrase(celecstyle));
-        tecnopredcell.setColspan(2);
+        tecnopredcell.setColspan(3);
         tablaclass.addCell(tecnopredcell);
         if(hoja_vida.isClaseelectrico()) {
         	tecnopredcell = new PdfPCell(new Phrase(xrtastyle));
@@ -2608,7 +2607,7 @@ public class PdfGenarator {
         }
         tablaclass.addCell(tecnopredcell);
         tecnopredcell = new PdfPCell(new Phrase(celectronicstyle));
-        tecnopredcell.setColspan(2);
+        tecnopredcell.setColspan(3);
         tablaclass.addCell(tecnopredcell);
         if(hoja_vida.isClaseelectronico()) {
         	tecnopredcell = new PdfPCell(new Phrase(xrtastyle));
@@ -2633,7 +2632,7 @@ public class PdfGenarator {
         tablaclass.addCell(riesgocell);
         
         freqmttocell = new PdfPCell(new Phrase(ptristyle));
-        freqmttocell.setColspan(2);
+        freqmttocell.setColspan(3);
         tablaclass.addCell(freqmttocell);
         if(hoja_vida.getEquipo().getPeriodicidad()==3) {
         	freqmttocell = new PdfPCell(new Phrase(xrtastyle));
@@ -2646,7 +2645,7 @@ public class PdfGenarator {
         tablaclass.addCell(freqmttocell);
         
         responmttocell = new PdfPCell(new Phrase(mttopropstyle));
-        responmttocell.setColspan(2);
+        responmttocell.setColspan(3);
         tablaclass.addCell(responmttocell);
         if(hoja_vida.isMapropio()) {
         	responmttocell = new PdfPCell(new Phrase(xrtastyle));
@@ -2658,17 +2657,494 @@ public class PdfGenarator {
         }
         tablaclass.addCell(responmttocell);
         
+        //thirdrowclass
+        tecnopredcell = new PdfPCell(new Phrase(cmecstyle));
+        tecnopredcell.setColspan(3);
+        tablaclass.addCell(tecnopredcell);
+        if(hoja_vida.isClasemecanico()) {
+        	tecnopredcell = new PdfPCell(new Phrase(xrtastyle));
+        	tecnopredcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	tecnopredcell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(tecnopredcell);
+        tecnopredcell = new PdfPCell(new Phrase(celectromecstyle));
+        tecnopredcell.setColspan(3);
+        tablaclass.addCell(tecnopredcell);
+        if(hoja_vida.isClaseelectromecanico()) {
+        	tecnopredcell = new PdfPCell(new Phrase(xrtastyle));
+        	tecnopredcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	tecnopredcell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(tecnopredcell);
+        
+        riesgocell = new PdfPCell(new Phrase(riesgoiiastyle));
+        tablaclass.addCell(riesgocell);
+        if(hoja_vida.isRiesgoiia()) {
+        	riesgocell = new PdfPCell(new Phrase(xrtastyle));
+        	riesgocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	riesgocell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(riesgocell);
+        
+        freqmttocell = new PdfPCell(new Phrase(pcuatristyle));
+        freqmttocell.setColspan(3);
+        tablaclass.addCell(freqmttocell);
+        if(hoja_vida.getEquipo().getPeriodicidad()==4) {
+        	freqmttocell = new PdfPCell(new Phrase(xrtastyle));
+        	freqmttocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	freqmttocell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(freqmttocell);
+        
+        responmttocell = new PdfPCell(new Phrase(mttocontstyle));
+        responmttocell.setColspan(3);
+        tablaclass.addCell(responmttocell);
+        if(hoja_vida.isMacontratado()) {
+        	responmttocell = new PdfPCell(new Phrase(xrtastyle));
+        	responmttocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	responmttocell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(responmttocell);
+        //fourthrowclass
+        tecnopredcell = new PdfPCell(new Phrase(chidstyle));
+        tecnopredcell.setColspan(3);
+        tablaclass.addCell(tecnopredcell);
+        if(hoja_vida.isClasehidraulico()) {
+        	tecnopredcell = new PdfPCell(new Phrase(xrtastyle));
+        	tecnopredcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	tecnopredcell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(tecnopredcell);
+        tecnopredcell = new PdfPCell(new Phrase(cneustyle));
+        tecnopredcell.setColspan(3);
+        tablaclass.addCell(tecnopredcell);
+        if(hoja_vida.isClaseneumatico()) {
+        	tecnopredcell = new PdfPCell(new Phrase(xrtastyle));
+        	tecnopredcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	tecnopredcell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(tecnopredcell);
+        
+        riesgocell = new PdfPCell(new Phrase(riesgoiibstyle));
+        tablaclass.addCell(riesgocell);
+        if(hoja_vida.isRiesgoiib()) {
+        	riesgocell = new PdfPCell(new Phrase(xrtastyle));
+        	riesgocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	riesgocell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(riesgocell);
+        
+        freqmttocell = new PdfPCell(new Phrase(psemstyle));
+        freqmttocell.setColspan(3);
+        tablaclass.addCell(freqmttocell);
+        if(hoja_vida.getEquipo().getPeriodicidad()==2) {
+        	freqmttocell = new PdfPCell(new Phrase(xrtastyle));
+        	freqmttocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	freqmttocell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(freqmttocell);
+        
+        responmttocell = new PdfPCell(new Phrase(mttocomostyle));
+        responmttocell.setColspan(3);
+        tablaclass.addCell(responmttocell);
+        if(hoja_vida.isComodato()) {
+        	responmttocell = new PdfPCell(new Phrase(xrtastyle));
+        	responmttocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	responmttocell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(responmttocell);
+        //fifthyrowclass
+        tecnopredcell = new PdfPCell(new Phrase(cvapstyle));
+        tecnopredcell.setColspan(3);
+        tablaclass.addCell(tecnopredcell);
+        if(hoja_vida.isClasevapor()) {
+        	tecnopredcell = new PdfPCell(new Phrase(xrtastyle));
+        	tecnopredcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	tecnopredcell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(tecnopredcell);
+        tecnopredcell = new PdfPCell(new Phrase(csolstyle));
+        tecnopredcell.setColspan(3);
+        tablaclass.addCell(tecnopredcell);
+        if(hoja_vida.isClasesolar()) {
+        	tecnopredcell = new PdfPCell(new Phrase(xrtastyle));
+        	tecnopredcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	tecnopredcell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(tecnopredcell);
+        
+        riesgocell = new PdfPCell(new Phrase(riesgoiiistyle));
+        tablaclass.addCell(riesgocell);
+        if(hoja_vida.isRiesgoiii()) {
+        	riesgocell = new PdfPCell(new Phrase(xrtastyle));
+        	riesgocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	riesgocell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(riesgocell);
+        
+        freqmttocell = new PdfPCell(new Phrase(panualstyle));
+        freqmttocell.setColspan(3);
+        tablaclass.addCell(freqmttocell);
+        if(hoja_vida.getEquipo().getPeriodicidad()==1) {
+        	freqmttocell = new PdfPCell(new Phrase(xrtastyle));
+        	freqmttocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	freqmttocell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(freqmttocell);
+        
+        responmttocell = new PdfPCell(new Phrase(mttogarstyle));
+        responmttocell.setColspan(3);
+        tablaclass.addCell(responmttocell);
+        if(hoja_vida.isMagarantia()) {
+        	responmttocell = new PdfPCell(new Phrase(xrtastyle));
+        	responmttocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	responmttocell = new PdfPCell(new Phrase(""));
+        }
+        tablaclass.addCell(responmttocell);
+        
+        //tableaccessories
+        Chunk accstyle = new Chunk("ACCESORIOS DEL EQUIPO:");
+        accstyle.setFont(fuenteEnunciados);
+        
+        Chunk acc1style = new Chunk(hoja_vida.getAccesorio1());
+        acc1style.setFont(rta);
+        
+        Chunk acc2style = new Chunk(hoja_vida.getAccesorio2());
+        acc2style.setFont(rta);
+        
+        Chunk acc3style = new Chunk(hoja_vida.getAccesorio3());
+        acc3style.setFont(rta);
+        
+        Chunk acc4style = new Chunk(hoja_vida.getAccesorio4());
+        acc4style.setFont(rta);
+        
+        Chunk calovalstyle = new Chunk("REQUIERE CALIBRACIÓN Y/O VALIDACIÓN:");
+        calovalstyle.setFont(fuenteEnunciados);
+        
+        Chunk calsistyle = new Chunk("SI:");
+        calsistyle.setFont(rta);
+        
+        Chunk calnostyle = new Chunk("NO:");
+        calnostyle.setFont(rta);
         
         
         
+        Chunk pvalcalstyle = new Chunk("PERIODICIDAD");
+        pvalcalstyle.setFont(fuenteEnunciados);
         
-        	
+        tablaclass.setSpacingAfter(10);
+        
+        PdfPTable tablefinal = new PdfPTable(16);
+        
+        PdfPTable tableacc = new PdfPTable(1);
+        PdfPCell accesory = new PdfPCell(new Phrase(accstyle));
+        tableacc.addCell(accesory);
+        accesory = new PdfPCell(new Phrase(acc1style));
+        tableacc.addCell(accesory);
+        accesory = new PdfPCell(new Phrase(acc2style));
+        tableacc.addCell(accesory);
+        accesory = new PdfPCell(new Phrase(acc3style));
+        tableacc.addCell(accesory);
+        accesory = new PdfPCell(new Phrase(acc4style));
+        tableacc.addCell(accesory);
+    
+        
+        PdfPCell accell = new PdfPCell(tableacc);
+        accell.setColspan(6);
+        accell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        accell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        
+       
+        PdfPTable tablecalval = new PdfPTable(4);
+        PdfPCell valcalcell = new PdfPCell(tablecalval);
+        valcalcell.setColspan(3);
+        valcalcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        valcalcell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        
+        PdfPCell calvalcell = new PdfPCell(new Phrase(calovalstyle));
+        calvalcell.setColspan(4);
+        tablecalval.addCell(calvalcell);
+        calvalcell = new PdfPCell(new Phrase(calsistyle));
+        tablecalval.addCell(calvalcell);
+        if(hoja_vida.isRequierecalibracion()) {
+        	calvalcell = new PdfPCell(new Phrase(xrtastyle));
+        	calvalcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	calvalcell = new PdfPCell(new Phrase(""));
+        }
+        tablecalval.addCell(calvalcell);
+        calvalcell = new PdfPCell(new Phrase(calnostyle));
+        tablecalval.addCell(calvalcell);
+        if(hoja_vida.isNorequierecalibracion()) {
+        	calvalcell = new PdfPCell(new Phrase(xrtastyle));
+        	calvalcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	calvalcell = new PdfPCell(new Phrase(""));
+        }
+        tablecalval.addCell(calvalcell);
+        
+        calvalcell = new PdfPCell(new Phrase(pvalcalstyle));
+        calvalcell.setColspan(4);
+        tablecalval.addCell(calvalcell);
+        calvalcell = new PdfPCell(new Phrase(psemstyle));
+        calvalcell.setColspan(3);
+        tablecalval.addCell(calvalcell);
+        if(hoja_vida.isPcalsemestral()) {
+        	calvalcell = new PdfPCell(new Phrase(xrtastyle));
+        	calvalcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	calvalcell = new PdfPCell(new Phrase(""));
+        }
+        tablecalval.addCell(calvalcell);
+        calvalcell = new PdfPCell(new Phrase(panualstyle));
+        calvalcell.setColspan(3);
+        tablecalval.addCell(calvalcell);
+        if(hoja_vida.isPcalanual()) {
+        	calvalcell = new PdfPCell(new Phrase(xrtastyle));
+        	calvalcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	calvalcell = new PdfPCell(new Phrase(""));
+        }
+        tablecalval.addCell(calvalcell);
+        
+        Chunk propstyle = new Chunk("PROPIEDAD DEL EQUIPO:");
+        propstyle.setFont(fuenteEnunciados);
+        
+        Chunk prohospitalstyle = new Chunk("HOSPITAL:");
+        prohospitalstyle.setFont(rta);
+        
+        Chunk proproveedorstyle = new Chunk("PROVEEDOR:");
+        proproveedorstyle.setFont(rtasmall);
+        
+        Chunk protrostyle = new Chunk("OTRO:");
+        protrostyle.setFont(rtasmall);
+        
+        Chunk biomedicstyle = new Chunk("CLASIFICACIÓN BIOMÉDICA");
+        biomedicstyle.setFont(fuenteEnunciados);
+        
+        Chunk diagstyle = new Chunk("DIAGNÓSTICO:");
+        diagstyle.setFont(rta);
+        
+        Chunk rehabstyle = new Chunk("REHABILITACIÓN:");
+        rehabstyle.setFont(rta);
+        
+        Chunk preventstyle = new Chunk("PREVENCIÓN:");
+        preventstyle.setFont(rta);
+        
+        Chunk analystyle = new Chunk("ANÁLISIS DE LABORATORIO:");
+        analystyle.setFont(rta);
+        
+        Chunk treatstyle = new Chunk("TRATAMIENTO Y MANTENIMIENTO A LA VIDA:");
+        treatstyle.setFont(rta);
+        
+        PdfPTable tableclassbio = new PdfPTable(8);
+        PdfPCell classbiocell = new PdfPCell(new Phrase(biomedicstyle));
+        classbiocell.setColspan(8);
+        tableclassbio.addCell(classbiocell);
+        
+        classbiocell = new PdfPCell(new Phrase(diagstyle));
+        classbiocell.setColspan(3);
+        tableclassbio.addCell(classbiocell);
+        
+        if(hoja_vida.isBiomedicdiagnostico()) {
+        	classbiocell = new PdfPCell(new Phrase(xrtastyle));
+        	classbiocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	classbiocell = new PdfPCell(new Phrase(""));
+        }
+        tableclassbio.addCell(classbiocell);
+        
+        classbiocell = new PdfPCell(new Phrase(rehabstyle));
+        classbiocell.setColspan(3);
+        tableclassbio.addCell(classbiocell);
+        
+        if(hoja_vida.isBiomedicrehabilitacion()) {
+        	classbiocell = new PdfPCell(new Phrase(xrtastyle));
+        	classbiocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	classbiocell = new PdfPCell(new Phrase(""));
+        }
+        tableclassbio.addCell(classbiocell);
+        
+        classbiocell = new PdfPCell(new Phrase(preventstyle));
+        classbiocell.setColspan(3);
+        tableclassbio.addCell(classbiocell);
+        
+        if(hoja_vida.isBiomedicprevencion()) {
+        	classbiocell = new PdfPCell(new Phrase(xrtastyle));
+        	classbiocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	classbiocell = new PdfPCell(new Phrase(""));
+        }
+        tableclassbio.addCell(classbiocell);
+        
+        classbiocell = new PdfPCell(new Phrase(analystyle));
+        classbiocell.setColspan(3);
+        tableclassbio.addCell(classbiocell);
+        
+        if(hoja_vida.isBiomedicanalisis()) {
+        	classbiocell = new PdfPCell(new Phrase(xrtastyle));
+        	classbiocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	classbiocell = new PdfPCell(new Phrase(""));
+        }
+        tableclassbio.addCell(classbiocell);
+        
+        classbiocell = new PdfPCell(new Phrase(treatstyle));
+        classbiocell.setColspan(7);
+        tableclassbio.addCell(classbiocell);
+        
+        if(hoja_vida.isBiomedictratamiento()) {
+        	classbiocell = new PdfPCell(new Phrase(xrtastyle));
+        	classbiocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	classbiocell = new PdfPCell(new Phrase(""));
+        }
+        tableclassbio.addCell(classbiocell);
+        
+        classbiocell = new PdfPCell(new Phrase(propstyle));
+        classbiocell.setColspan(8);
+        tableclassbio.addCell(classbiocell);
+        
+        classbiocell = new PdfPCell(new Phrase(prohospitalstyle));
+        classbiocell.setColspan(2);
+        tableclassbio.addCell(classbiocell);
+        if(hoja_vida.isProphospital()) {
+        	classbiocell = new PdfPCell(new Phrase(xrtastyle));
+        	classbiocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	classbiocell = new PdfPCell(new Phrase(""));
+        }
+        tableclassbio.addCell(classbiocell);
+        
+        classbiocell = new PdfPCell(new Phrase(proproveedorstyle));
+        classbiocell.setColspan(2);
+        tableclassbio.addCell(classbiocell);
+        if(hoja_vida.isPropproveedor()) {
+        	classbiocell = new PdfPCell(new Phrase(xrtastyle));
+        	classbiocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	classbiocell = new PdfPCell(new Phrase(""));
+        }
+        tableclassbio.addCell(classbiocell);
+        
+        classbiocell = new PdfPCell(new Phrase(protrostyle));
+        tableclassbio.addCell(classbiocell);
+        if(hoja_vida.isPropotro()) {
+        	classbiocell = new PdfPCell(new Phrase(xrtastyle));
+        	classbiocell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        }
+        
+        else {
+        	classbiocell = new PdfPCell(new Phrase(""));
+        }
+        tableclassbio.addCell(classbiocell);
+        
+        PdfPCell biomedicell = new PdfPCell(tableclassbio);
+        biomedicell.setColspan(7);
+        
+        PdfPTable tableobs = new PdfPTable(8);
+        
+        Chunk obsstyle = new Chunk("OBSERVACIONES:");
+        obsstyle.setFont(fuenteEnunciados);
+        PdfPCell obs = new PdfPCell(new Phrase(obsstyle));
+        obs.setColspan(2);
+        obs.setMinimumHeight(20);
+        tableobs.addCell(obs);
+        
+        obs = new PdfPCell(new Phrase(""));
+        obs.setColspan(6);
+        tableobs.addCell(obs);
+        
+        Chunk espnull = new Chunk("ND: NO DISPONIBLE NR: NO REGISTRA NE: NO ESPECIFICA NA: NO APLICA");
+        espnull.setFont(rta);
+        obs = new PdfPCell(new Phrase(espnull));
+        obs.setColspan(8);
+        obs.setBorder(Rectangle.NO_BORDER);
+        tableobs.addCell(obs);
+        
+        
+        tablefinal.addCell(accell);
+        tablefinal.addCell(valcalcell);
+        tablefinal.addCell(biomedicell);
+        
+        tablefinal.setSpacingAfter(10);
+        
+        
         document.add(tabla);
         document.add(tabladhos);
         document.add(tablaeqcom);
         document.add(tablatecnica);
         document.add(tablaclass);
-
+        document.add(tablefinal);
+        document.add(tableobs);
         document.close();
         // Retornamos la variable al finalizar
         return bos;

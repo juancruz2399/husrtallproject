@@ -111,6 +111,10 @@
     <div class="col-md-5 p-lg-5 mx-auto">
     	<h4 th:inline="text"> Bienvenido [[${#request.userPrincipal.principal.fullName}]] </h4>
       	
+      <h1 th:if="${mensaje}">
+	    <p th:text="${'You have successfully submitted poem titled - '}"/></p>
+	
+	</h1>
       <h1 class="display-4 fw-normal">HRCATCH
       <div class="icon">
 			      <i class="bi bi-hospital"></i>

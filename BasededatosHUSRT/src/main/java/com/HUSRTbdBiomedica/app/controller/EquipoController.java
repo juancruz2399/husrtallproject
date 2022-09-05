@@ -5,9 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,10 +29,14 @@ import com.HUSRTbdBiomedica.app.entity.Hospital;
 import com.HUSRTbdBiomedica.app.entity.Reporte;
 import com.HUSRTbdBiomedica.app.entity.Servicio;
 import com.HUSRTbdBiomedica.app.entity.Tipo_equipo;
+import com.HUSRTbdBiomedica.app.entity.Usuario;
+import com.HUSRTbdBiomedica.service.CustomUserDetails;
 import com.HUSRTbdBiomedica.service.IEquipoService;
 import com.HUSRTbdBiomedica.service.IHospital_Service;
 import com.HUSRTbdBiomedica.service.IServicioService;
 import com.HUSRTbdBiomedica.service.ITipo_equipoService;
+import com.HUSRTbdBiomedica.service.IUsuarioService;
+
 
 @Controller
 @SessionAttributes("equipo")
@@ -47,13 +54,36 @@ public class EquipoController {
 	@Autowired
 	private IServicioService ServicioService;
 	
+	@Autowired
+	private IUsuarioService UsuarioService;
+	
 	@GetMapping("/producto")
-	public String Dashboard(Model model) {
+	public String Dashboard(Model model,HttpServletRequest request) {
+		
+		Authentication auth = SecurityContextHolder
+	            .getContext()
+	            .getAuthentication();
+		Object[] roles = auth.getAuthorities().toArray();
+	   
+	    
+		if(roles[0].toString().equals("ADMIN")||roles[0].toString().equals("EDITOR")||roles[0].toString().equals("USER")) {
+			return "producto";
+		}
+		else if(roles[0].toString().equals("VISITOR")) {
+			return "redirect:/clasificacionDHServicio";
+		}
+		
 		return "producto";
 	}
 	@GetMapping("/todoslosequipos")
 	public String ListarTipo_equipos(Model model) {
+		
+		
+		System.out.println(Tipo_equipoService.ListTipo_equipo().size());
+		System.out.println(EquipoService.countequiposbytipo().size());
 		model.addAttribute("tipo_equiporrios",Tipo_equipoService.ListTipo_equipo());
+		
+		model.addAttribute("num",EquipoService.countequiposbytipo());
 		return "todoslosequipos";
 	}
 	

@@ -345,7 +345,7 @@
                                   </div> 
                                 </fieldset>  
                                 <form class="needs-validation" validate method = "post" th:action = "@{/uploadreport/}+${reporte.id_Reporte}" enctype = "multipart/form-data" th:id = "'fileUploadForm'+${reporte.id_Reporte}" >
-                                	<div class = "form-group">
+                                	<div class = "form-group" sec:authorize= "hasAnyAuthority('ADMIN','EDITOR','USER')">
                                 		<label class = "custom-file" th:id = "'custom-file'+${reporte.id_Reporte}">
                                 			<input type = "file" class = "form-control" name = "file" accept = "application/pdf" required>
                                 			<span class = "form-control"></span>
@@ -404,7 +404,7 @@
 						                  </tr>
 						                </thead>                
 						                <tbody>
-						                  <tr class="table-light" th:each="protocolo:${protocols.get(iter.index)}">
+						                  <tr class="table-white" th:each="protocolo:${protocols.get(iter.index)}">
 						                    <td th:text="${protocolo.Paso}"></td>
 						                    <div th:if="${protocolo.Cumplimiento==true}">
 						                    	<td>
@@ -441,7 +441,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                      <button th:onclick = "'window.location.href=\''+@{/formatoreporte/}+${reporte.id_Reporte}+'\''"type="button" class="btn btn-primary" >Generar formato</button>
+                      <button sec:authorize= "hasAnyAuthority('ADMIN','EDITOR','USER')" th:onclick = "'window.location.href=\''+@{/formatoreporte/}+${reporte.id_Reporte}+'\''"type="button" class="btn btn-primary" >Generar formato</button>
                                                  
                     </div>
                   </div>

@@ -250,7 +250,7 @@
                          </div>
                          <div class = "col-md-4">
                          	<p><b>ACCESORIOS DEL EQUIPO</b></p>
-			                  <div class="bd-example">
+			                  <div class="bd-example g-3">
 			                  <ul class="list-group">
 			                    
 			                    <li class="list-group-item" th:text="${hojas_vida.get(iter.index).Accesorio1}"></li>
@@ -259,10 +259,13 @@
 			                    <li class="list-group-item" th:text="${hojas_vida.get(iter.index).Accesorio4}"></li>
 			                  </ul>
 			                  </div>
+			                  <a class = "btn btn-success" th:href = "@{/downloadHV/}+${equipo.id_Equipo}" th:if="${hojas_vida.get(iter.index).Foto} AND ${hojas_vida.get(iter.index).Foto!=''}">Hoja de vida</a>
                          </div>
                          <div class = "col-md-4">	                         
 		                 	<img th:src="@{${hojas_vida.get(iter.index).Foto}}" width="250" height="200">		                         
+                         	<a th:href="@{/visualpdfguia/}+${equipo.id_Equipo}"class = "btn btn-danger" th:if="${equipo.Guia}">Guia rápida</a>
                          </div>
+                       
 
                         </div>
                         <div class="row">
@@ -296,7 +299,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                         
+                      <button th:onclick = "'window.location.href=\''+@{/visualizacionreportes/}+${equipo.id_Equipo}+'\''"type="button" class="btn btn-primary" >Reportes</button>                   
                     </div>
                   </div>
                 </div>

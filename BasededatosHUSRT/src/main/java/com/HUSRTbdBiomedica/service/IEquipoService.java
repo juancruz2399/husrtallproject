@@ -11,6 +11,7 @@ public interface IEquipoService {
 	public Equipo findOne(Long id);
 	public void save(Equipo equipo);
 	public void delete(Long id);
+	public List<Integer> countequiposbytipo();
 	
 	
 	public List<Equipo> findEquiposAnual(Long id);

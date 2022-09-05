@@ -2,6 +2,7 @@ package com.HUSRTbdBiomedica.service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -167,12 +168,24 @@ public class ReporteServiceImp implements IReporteService{
 
 	@Override
 	public Time avghorallamado(Date fecha1, Date fecha2) {
-		return ReporteDao.horallamado(fecha1, fecha2);
+		if(ReporteDao.horallamado(fecha1, fecha2)!=null) {
+			return ReporteDao.horallamado(fecha1, fecha2);
+		}
+		else {
+			return Time.valueOf(LocalTime.of(0, 0, 0));
+		}
+		
 	}
 
 	@Override
 	public Time avghorainicio(Date fecha1, Date fecha2) {
-		return ReporteDao.horainicio(fecha1, fecha2);
+		
+		if(ReporteDao.horainicio(fecha1, fecha2)!=null) {
+			return ReporteDao.horainicio(fecha1, fecha2);
+		}
+		else {
+			return Time.valueOf(LocalTime.of(0, 0, 0));
+		}
 	}
 
 	@Override

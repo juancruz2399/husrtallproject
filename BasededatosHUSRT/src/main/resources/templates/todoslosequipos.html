@@ -81,7 +81,7 @@
   <form>
     <div class="col-md-12 col-lg-12">
       <div class="input-group">
-        <input class="form-control" id = "todostipoinput"onkeyup = "myFunction()"type="text" placeholder="Ingrese tipo de equipo" aria-label="Search">
+        <input class="form-control" id = "todostipoinput"onkeyup = "myFunction()"onclick = "myFunction()" type="text" placeholder="Ingrese tipo de equipo" aria-label="Search">
         <span class="input-group-btn">
           <button type="button" id = "botontodostipo"class="w-200 btn btn-lg btn-dark">Buscar</button>
         </span>
@@ -91,7 +91,7 @@
   </form>
   <div class="row" id = "cardtipo">
  
-    <div class= "col-md-4" th:each="tipo_equipo:${tipo_equiporrios}">
+    <div class= "col-md-4" th:each="tipo_equipo,iter:${tipo_equiporrios}">
     					
 						<div class="card mb-4 shadow-sm">
 					      <div class="card-header">
@@ -100,7 +100,7 @@
 					
 					      </div>
 					      <div class="card-body">
-					        <h1 class="card-title pricing-card-title" align = "center" th:text= "${tipo_equipo.cantidad_equipo}"></h1>
+					        <h1 class="card-title pricing-card-title" align = "center" th:text= "${num.get(iter.index)}"></h1>
 					        <ul class="list-unstyled mt-3 mb-4">
 					  
 					          <li align = "center">...</li>

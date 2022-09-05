@@ -339,7 +339,7 @@
                                 </fieldset>  
                              
                                 <div  th:if="${reporte.Rutapdf_baja}">
-                                	<form method = "get" th:action = "@{/visualpdfreport/}+${reporte.id_Reporte_baja}" enctype = "multipart/form-data" th:id = "'fileUploadForm'+${reporte.id_Reporte_baja}" class = "container">
+                                	<form method = "get" th:action = "@{/visualpdfreportbaja/}+${reporte.id_Reporte_baja}" enctype = "multipart/form-data" th:id = "'fileUploadForm'+${reporte.id_Reporte_baja}" class = "container">
                                 
 	                                	<button type = "submit" id = "previewBtn" class = "btn btn-primary">Visualizar</button>
 	                            	</form> 

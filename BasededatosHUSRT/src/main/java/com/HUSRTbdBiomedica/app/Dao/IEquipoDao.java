@@ -29,6 +29,8 @@ public interface IEquipoDao extends CrudRepository<Equipo, Long> {
     @Query("SELECT COUNT(e) from Equipo e WHERE e.Periodicidad=1")
     public int countAnual();
     
+    @Query("SELECT COUNT(e) from Equipo e GROUP BY e.tipo_equipo.id_Tipo_equipo")
+    public List<Integer> countbyTiposEquipo();
 
        
     @Query("SELECT e from Equipo e WHERE e.nombre_Equipo LIKE %?1%")
@@ -61,6 +63,8 @@ public interface IEquipoDao extends CrudRepository<Equipo, Long> {
     		+"WHERE t.id_Tipo_equipo=?1")
     public List<Equipo> findEquiposbyTipoEquipo(Long id);
     
+    
+    
     //para criterios tecnicos
     
     @Query("SELECT count(r) FROM Reporte r "+
@@ -68,7 +72,10 @@ public interface IEquipoDao extends CrudRepository<Equipo, Long> {
     		+"WHERE r.Tipo_mantenimiento=2 AND e.id_Equipo =?1 AND r.Fecha>=?2 AND r.Fecha<=?3")
     public int numerocorrectivosano(Long id, Date fechainicialano,Date fechaactual);
     
-    
+    //numero de calibraciones programadas
+    @Query("SELECT COUNT(e) FROM Equipo e "+
+    		"WHERE e.Enero_mantenimiento='k' OR e.Enero_mantenimiento='K'")
+    public int numcalenero();
     
     //numero mantenimientos preventivos programados
     

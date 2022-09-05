@@ -1,5 +1,8 @@
 package com.HUSRTbdBiomedica.app.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -9,9 +12,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.HUSRTbdBiomedica.app.entity.Equipo;
@@ -33,6 +43,7 @@ import com.HUSRTbdBiomedica.service.IMantenimiento_preventivoService;
 import com.HUSRTbdBiomedica.service.IProtocolo_preventivoService;
 import com.HUSRTbdBiomedica.service.IReporteService;
 import com.HUSRTbdBiomedica.service.ITipo_equipoService;
+import com.HUSRTbdBiomedica.service.UploadFileService;
 
 
 @Controller
@@ -51,6 +62,8 @@ public class ProtocoloController {
 	@Autowired
 	private IReporteService ReporteService;
 
+	@Autowired
+	private UploadFileService uploadFileService;
 	
 	@GetMapping(value = "/rutinamtto/{id}/{idmtto}")
 	public String generarrutina(@PathVariable(value="id") Long id,@PathVariable(value="idmtto") Long idmtto,
@@ -278,6 +291,84 @@ public class ProtocoloController {
 		return "rutinaformatomtto";
 	}
 	
+	@GetMapping(value ="/revisarguiarutina")
+	public String reviewguiderut(Model model) {
+		
+		List<Equipo> equipos = EquipoService.ListEquipo();
+		model.addAttribute("equipos", equipos);
+		ArrayList<List<Protocolo_preventivo>> protocolos = new ArrayList<List<Protocolo_preventivo>>();
+		Long id = 0L;
+		for(int e = 0;e<equipos.size();e++) {
+
+			id = equipos.get(e).getId_Equipo();
+			if(id.equals(540L)) {
+				protocolos.add(Protocolo_preventivoService.protocoloexcepcion(equipos.get(e).getTipo_equipo().getId_Tipo_equipo()));
+			}
+			else if(id.equals(414L)) {
+				protocolos.add(Protocolo_preventivoService.protocoloexcepcion(equipos.get(e).getTipo_equipo().getId_Tipo_equipo()));
+				
+			}
+			else {
+				protocolos.add(Protocolo_preventivoService.protocologeneral(equipos.get(e).getTipo_equipo().getId_Tipo_equipo()));
+				
+			}
+		}
+		model.addAttribute("protocolos", protocolos);
+		
+		return "reviewguiderutine";
+	}
 	
+	@PostMapping(value ="/asignarguia")
+	public String asignarguia(		
+			@RequestParam(value="guias",defaultValue = "EMPTY")String guias,
+			@RequestParam("file") MultipartFile file,
+            Model model,
+            RedirectAttributes flash,
+            SessionStatus status) throws IOException {
+		
+		String upload_folder = "./src/main/resources/guias/";
+		if(guias.equals("EMPTY")) {
+			flash.addAttribute("unselect", "No selecciono ningun equipo");
+			return "redirect:/revisarguiarutina";
+		}
+		else {
+			ArrayList<String> listcheck = new ArrayList<String>(Arrays.asList(guias.split(",")));
+			ArrayList<Equipo> listchecknum = new ArrayList<Equipo>();
+			for(int i = 0;i<listcheck.size();i++) {
+				listchecknum.add(i,EquipoService.findOne(Long.valueOf(listcheck.get(i))));
+			}
+			
+			for(int e = 0;e<listchecknum.size();e++) {
+				listchecknum.get(e).setGuia(upload_folder+String.valueOf(listchecknum.get(0).getId_Equipo())+ file.getOriginalFilename());
+				EquipoService.save(listchecknum.get(e));
+			}
+			uploadFileService.saveGuide(file,listchecknum.get(0).getId_Equipo());
+		
+			
+			
+			
+			return "redirect:/clasificacionDHServicio";
+		}
+		
+			
+
+	}
+	@GetMapping(value = "/visualpdfguia/{id}")
+    public ResponseEntity<InputStreamResource> visualizarpdfguia(HttpServletRequest request,HttpServletResponse response,@PathVariable(value="id") Long id,
+			  Map<String,Object>map,Model model,
+			  RedirectAttributes flash) throws IOException{
+    	Equipo equipo = EquipoService.findOne(id);
+    	File file = new File(equipo.getGuia());
+    	HttpHeaders headers = new HttpHeaders();
+    	
+    	InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+    	
+    	return ResponseEntity.ok()
+    			.headers(headers)
+    			.contentLength(file.length())
+    			.contentType(MediaType.parseMediaType("application/pdf"))
+    			.body(resource);
+    			
+    }
 	
 }

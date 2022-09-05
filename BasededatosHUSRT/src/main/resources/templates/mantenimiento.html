@@ -258,7 +258,8 @@
 	    <div class="col-md-9">
 	    	<div class="tab-content" id="nav-tabContents">
 		  		<div class="tab-pane fade show active" id="nav-sinrealizar" role="tabpanel" aria-labelledby="nav-sinrealizar-tab">
-		  			<p class = "lead">Mantenimientos sin realizar</p>
+		  			<p class = "lead" th:text="${listsinrealizar.size()}+' Mantenimientos sin realizar'">Mantenimientos sin realizar</p>
+		
 		  			<div th:if="${#lists.isEmpty(listsinrealizar)}"
 							        	 class="alert alert-info my-4"
 							        	 th:text="'No hay mantenimientos programados en este rango'">
@@ -307,7 +308,9 @@
 		  			</div>
 		  		</div>
 		  		<div class="tab-pane fade" id="nav-realizado" role="tabpanel" aria-labelledby="nav-realizado-tab">
-		  			<p class = "lead">Mantenimientos realizados</p>
+		  		
+		  			<p class = "lead" th:text="${listhechos.size()}+' Mantenimientos realizados'">Mantenimientos sin realizar</p>
+		
 		  			<div th:if="${#lists.isEmpty(listhechos)}"
 					        	 class="alert alert-info my-4"
 					        	 th:text="'No hay mantenimientos hechos hasta el momento'">

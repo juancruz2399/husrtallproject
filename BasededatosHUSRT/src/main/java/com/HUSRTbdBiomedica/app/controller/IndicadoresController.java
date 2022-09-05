@@ -42,48 +42,14 @@ public class IndicadoresController {
 			RedirectAttributes flash) {
 		
 		LocalDate Current_Date = LocalDate.now();
-		int current_year= Current_Date.getYear();
-		int initial_year = current_year;
-		int final_year = current_year;
 		
-		Month current_month = Current_Date.getMonth();
-		int Mesfinal = current_month.getValue();
-		int Mesinicial = Mesfinal-1;
-		int Mesfinal3  = Mesfinal+1;
-		String Mesactual = null;
-		String Mesanterior = null;
-		String Messiguiente = null;
-		if (Mesinicial<10 || Mesfinal<10 || Mesfinal3 <10 && Mesinicial!=0) {
-			Mesactual="0"+Mesfinal;
-			Mesanterior = "0"+Mesinicial;
-			Messiguiente = "0"+Mesfinal3;
-		}
-		
-		else if(Mesinicial==0 ) {
-			Mesanterior = "12";
-			Mesactual = "01";
-			initial_year = current_year-1;
-			
-			
-			
-		}
-		else if(Mesfinal3 ==13) {
-			Messiguiente = "01";
-			final_year = current_year+1;
-			
-		}
-		
-		else {
-			Mesanterior = String.valueOf(Mesinicial);
-			Mesactual = String.valueOf(Mesfinal);
-			
-		}
-		String fecha_1 = initial_year+"-"+Mesanterior+"-"+"01";
-		String fecha_2 = current_year+"-"+Mesactual+"-"+"01";
-		String fecha_3 = final_year +"-"+Messiguiente+"-"+"01";
-		
+		Current_Date = Current_Date.minusDays(Current_Date.getDayOfMonth()-1);
+
+		LocalDate fecha_1 = Current_Date.minusMonths(1);
+		LocalDate fecha_3 = Current_Date.plusMonths(1);
+		int Mesfinal = Current_Date.getMonthValue(); 
 		Date fecha1 = Date.valueOf(fecha_1);
-		Date fecha2 = Date.valueOf(fecha_2);
+		Date fecha2 = Date.valueOf(Current_Date);
 		Date fecha3 = Date.valueOf(fecha_3);
 		
 		
@@ -381,7 +347,9 @@ public class IndicadoresController {
 		
 		Time thorainicio = ReporteService.avghorainicio(fecha2, fecha3);
 		Time thorallamado = ReporteService.avghorallamado(fecha2, fecha3);
+		System.out.println(thorainicio);
 		LocalTime tinicio = thorainicio.toLocalTime();
+		
 		LocalTime tllamado = thorallamado.toLocalTime();
 		
 		LocalTime trta = tinicio.minusHours(tllamado.getHour());

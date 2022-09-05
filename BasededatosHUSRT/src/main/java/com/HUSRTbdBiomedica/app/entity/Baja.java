@@ -49,6 +49,9 @@ private static final long serialVersionUID = 1L;
 	@Column(name = "causa")
 	private String Causa;
 	
+	@Column(name = "guia")
+	private String Guia;
+	
 	@JoinColumn(name = "id_hospital_FK",referencedColumnName="id_Hospital")
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL )
 	private Hospital hospital;
@@ -175,6 +178,14 @@ private static final long serialVersionUID = 1L;
 
 	public void setHoja_vida(Hoja_vida hoja_vida) {
 		this.hoja_vida = hoja_vida;
+	}
+
+	public String getGuia() {
+		return Guia;
+	}
+
+	public void setGuia(String guia) {
+		Guia = guia;
 	}
 
 	

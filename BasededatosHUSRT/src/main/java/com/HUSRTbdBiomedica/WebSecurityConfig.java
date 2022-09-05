@@ -73,9 +73,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 							,"/hvdatosregulatorios/**","/hvclasificacionequipo/**","/hvmantenimientoequipo/**"
 							,"/hvaccesorios/**","/indicadores","/mantenimiento","/rutinamtto/**/**"
 							,"/nuevopreventivo/**/**","/rutinaformatomtto/**","/uploadreport/**","/allReportes"
-							,"/visualizacionreportes/**","/visualizaciontipoequipo/**","/visualizacionequiposanuales/**"
+							,"/visualizaciontipoequipo/**","/visualizacionequiposanuales/**"
 							,"/visualizacionequipossemestrales/**","/visualizacionequiposcuatrimestrales/**"
-							,"/visualizacionequipostrimestrales/**","/formatoreporte/**","/visualpdfreport/**"
+							,"/visualizacionequipostrimestrales/**","/formatoreporte/**"
 							,"/nuevoreporte/**","/download/**","/usuarios").hasAnyAuthority("ADMIN","EDITOR","USER")
 			.anyRequest()
 			.authenticated()

@@ -44,7 +44,10 @@
     <h1 class="display-4 fw-normal">BASE DE DATOS HUSRT</h1>
     
     <h1 class="h3 mb-3 fw-normal">Por favor ingrese</h1>
-    
+    <h1 th:if="${mensaje}">
+	    <p th:text="${'You have successfully submitted poem titled - '}"/></p>
+	
+	</h1>
     <label for="cedula" class="visually-hidden"></label>
     <input type="text" id="cedula"name = "cedula" class="form-control" placeholder="Usuario" autofocus required/>
     <label for="password" class="visually-hidden"></label>

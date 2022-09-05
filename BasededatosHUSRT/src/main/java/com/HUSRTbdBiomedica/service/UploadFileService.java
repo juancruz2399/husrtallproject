@@ -14,7 +14,7 @@ public class UploadFileService {
 	
 	private String upload_folder = "./src/main/resources/files/";
 	private String images_folder = "./src/main/resources/static/images/";
-	
+	private String guides_folder = "./src/main/resources/guias/";
 	
 	public void saveFile(MultipartFile file,Long id) throws IOException{
 		
@@ -34,4 +34,12 @@ public class UploadFileService {
 		}
 	}
 
+	public void saveGuide(MultipartFile file,Long id) throws IOException{
+		if(!file.isEmpty()) {
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(guides_folder +id+ file.getOriginalFilename());
+			System.out.println(path);
+			Files.write(path, bytes);
+		}
+	}
 }
