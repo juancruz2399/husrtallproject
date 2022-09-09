@@ -29,47 +29,52 @@ public interface IReporteDao extends CrudRepository<Reporte, Long> {
     @Query("SELECT MAX(r.id_Reporte) FROM Reporte r")
     public Long findLastIdReporte();
     //Indicadores individuales mtto
-    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas FROM Reporte r "+
+    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas,"
+    		+ "r.id_Reporte,r.Nombre_equipo,r.Marca,r.Modelo,r.Serie,r.Placa_inventario,r.Servicio,r.Tipo_falla,r.Trabajo_realizado,r.Autor_recibido,r.Rutapdf FROM Reporte r "+
     		"WHERE r.Tipo_mantenimiento=2 AND r.Fecha>=?1 AND r.Fecha<?2")
     public List<String> correctivos(Date fecha1, Date fecha2);
     
-    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas FROM Reporte r "+
+    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas,"
+    		+ "r.id_Reporte,r.Nombre_equipo,r.Marca,r.Modelo,r.Serie,r.Placa_inventario,r.Servicio,r.Tipo_falla,r.Trabajo_realizado,r.Autor_recibido,r.Rutapdf FROM Reporte r "+
     		"WHERE r.Tipo_mantenimiento=3 AND r.Fecha>=?1 AND r.Fecha<?2")
     public List<String> preventivos(Date fecha1, Date fecha2);
     
-    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas FROM Reporte r "+
+    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas,"
+    		+ "r.id_Reporte,r.Nombre_equipo,r.Marca,r.Modelo,r.Serie,r.Placa_inventario,r.Servicio,r.Tipo_falla,r.Trabajo_realizado,r.Autor_recibido,r.Rutapdf FROM Reporte r "+
     		"WHERE r.Tipo_mantenimiento=4 AND r.Fecha>=?1 AND r.Fecha<?2")
     public List<String> predictivos(Date fecha1, Date fecha2);
     
-    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas FROM Reporte r "+
+    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas,"
+    		+ "r.id_Reporte,r.Nombre_equipo,r.Marca,r.Modelo,r.Serie,r.Placa_inventario,r.Servicio,r.Tipo_falla,r.Trabajo_realizado,r.Autor_recibido,r.Rutapdf FROM Reporte r "+
     		"WHERE r.Tipo_mantenimiento=1 AND r.Fecha>=?1 AND r.Fecha<?2")
     public List<String> otros(Date fecha1, Date fecha2);
     
-    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas FROM Reporte r "+
+    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas,"
+    		+ "r.id_Reporte FROM Reporte r "+
     		"WHERE r.Tipo_falla=1 AND r.Fecha>=?1 AND r.Fecha<?2")
     public List<String> desgaste(Date fecha1, Date fecha2);
     
-    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas FROM Reporte r "+
+    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas,r.id_Reporte FROM Reporte r "+
     		"WHERE r.Tipo_falla=2 AND r.Fecha>=?1 AND r.Fecha<?2")
     public List<String> opindebida(Date fecha1, Date fecha2);
     
-    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas FROM Reporte r "+
+    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas,r.id_Reporte FROM Reporte r "+
     		"WHERE r.Tipo_falla=3 AND r.Fecha>=?1 AND r.Fecha<?2")
     public List<String> causaex(Date fecha1, Date fecha2);
     
-    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas FROM Reporte r "+
+    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas,r.id_Reporte FROM Reporte r "+
     		"WHERE r.Tipo_falla=4 AND r.Fecha>=?1 AND r.Fecha<?2")
     public List<String> accesorios(Date fecha1, Date fecha2);
     
-    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas FROM Reporte r "+
+    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas,r.id_Reporte FROM Reporte r "+
     		"WHERE r.Tipo_falla=5 AND r.Fecha>=?1 AND r.Fecha<?2")
     public List<String> desconocido(Date fecha1, Date fecha2);
     
-    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas FROM Reporte r "+
+    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas,r.id_Reporte FROM Reporte r "+
     		"WHERE r.Tipo_falla=6 AND r.Fecha>=?1 AND r.Fecha<?2")
     public List<String> sinfallas(Date fecha1, Date fecha2);
     
-    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas FROM Reporte r "+
+    @Query("SELECT r.Fecha,r.Hora_inicio,r.Hora_terminacion,r.Hora_llamado,r.Autor_realizado,r.Total_horas,r.id_Reporte FROM Reporte r "+
     		"WHERE r.Tipo_falla=7 AND r.Fecha>=?1 AND r.Fecha<?2")
     public List<String> aotros(Date fecha1, Date fecha2);
     

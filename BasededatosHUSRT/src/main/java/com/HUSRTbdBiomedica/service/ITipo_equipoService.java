@@ -17,6 +17,8 @@ public interface ITipo_equipoService {
 	public List<Tipo_equipo> findTipo_equipobyPeriodicidad(int id);
 	public int countEbyTipoEquipobyP(int perioid, Long id);
 	
+	public List<Tipo_equipo> findTiposconEquipo();
+	
 	public Tipo_equipo findbyName(String name);
 
 }

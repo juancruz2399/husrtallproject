@@ -77,11 +77,8 @@ public class EquipoController {
 	}
 	@GetMapping("/todoslosequipos")
 	public String ListarTipo_equipos(Model model) {
-		
-		
-		System.out.println(Tipo_equipoService.ListTipo_equipo().size());
-		System.out.println(EquipoService.countequiposbytipo().size());
-		model.addAttribute("tipo_equiporrios",Tipo_equipoService.ListTipo_equipo());
+	
+		model.addAttribute("tipo_equiporrios",Tipo_equipoService.findTiposconEquipo());
 		
 		model.addAttribute("num",EquipoService.countequiposbytipo());
 		return "todoslosequipos";
@@ -202,7 +199,7 @@ public class EquipoController {
 		for(int i = 0; i<servicios.size();i++) {
 			nombres.add(servicios.get(i).getNombre_servicio());
 		}
-		
+		System.out.println(equipo.getDias_mantenimiento());
 		model.addAttribute("servicios",nombres);
 		model.addAttribute("meses",equipo.getMeses_mantenimiento());
 		model.addAttribute("dias",equipo.getDias_mantenimiento());

@@ -15,9 +15,7 @@
     <!-- Bootstrap core CSS -->
     <link href="../static/ccs/bootstrap.min.css" rel="stylesheet"th:href="@{/css/bootstrap.min.css}">
 
-<script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/moment.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/daterangepicker.js}"></script>
+
 <link rel="stylesheet" type="text/css" th:href="@{/css/daterangepicker.css}">
 
     <style>
@@ -500,7 +498,15 @@
    
   </footer>
 </div>
-<script th:inline = "javascript">
+
+  
+   
+      
+  </body>
+  <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/moment.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/daterangepicker.js}"></script>
+  <script th:inline = "javascript">
 /*<![CDATA[*/
 var dictservice = /*[[${servicios}]]*/ 'default';
 var listnameservice =dictservice;
@@ -520,10 +526,12 @@ $("#feb2").hide();
 $("#ene1").hide();
 var mesesstr = /*[[${meses}]]*/ 'default';
 var diasstr = /*[[${dias}]]*/ 'default';
+
 if(mesesstr!=null && diasstr!=null){
 	var mesesarray = mesesstr.split(',');
-
+	
 	var diasarray = diasstr.split(',');
+	console.log(diasarray)
 	if(mesesarray.indexOf('ENERO')!=-1){
 	let posicion = mesesarray.indexOf('ENERO')
 	 
@@ -605,10 +613,11 @@ if(mesesstr!=null && diasstr!=null){
 	}
 	if(mesesarray.indexOf('ABRIL')!=-1){
 		let posicion = mesesarray.indexOf('ABRIL')
-		 
+		
 		$("#mabril").prop("checked",true);
 		$("#abr4").show();
 		var mttodias = diasarray[posicion].split('-');
+		
 		if(mttodias.length>1){
 			if(parseInt(mttodias[0],10)<10){
 				mttodias[0] = '0'+mttodias[0];
@@ -625,8 +634,10 @@ if(mesesstr!=null && diasstr!=null){
 			}
 			
 		}
+		console.log(mttodias)
 		var rangedates = "4/"+mttodias[0]+" - "+"4/"+mttodias[1];
-		var inputmes = document.getElementById("abr3");
+		console.log(rangedates)
+		var inputmes = document.getElementById("abr4");
 		inputmes.value = rangedates;
 	}
 	if(mesesarray.indexOf('MAYO')!=-1){
@@ -782,6 +793,7 @@ if(mesesstr!=null && diasstr!=null){
 			
 		}
 		var rangedates = "10/"+mttodias[0]+" - "+"10/"+mttodias[1];
+		console.log(rangedates)
 		var inputmes = document.getElementById("oct10");
 		inputmes.value = rangedates;
 	}
@@ -1423,8 +1435,4 @@ autocomplete(document.getElementById("myInput"),listnameservice);
       });
     </script>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-  
-   
-      
-  </body>
 </html>

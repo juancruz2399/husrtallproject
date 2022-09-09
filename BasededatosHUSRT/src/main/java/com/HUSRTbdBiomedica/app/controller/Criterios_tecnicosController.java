@@ -354,6 +354,7 @@ public class Criterios_tecnicosController {
     			listacriterios.get(indice).setCriterios_especificos(listacriteriosespecificos.get(indice));
     		}
     		criterios.setEquipo(EquipoService.findOne(104L));
+    		criterios.setFecha(Date.valueOf(LocalDate.now()));
     		criterios.setCriterios_tecnicos(criterios_tecnicos);
     		criterios.setCriterios_economicos(criterios_economicos);
     		criterios.setCriterios_especificos(criterios_especificos);

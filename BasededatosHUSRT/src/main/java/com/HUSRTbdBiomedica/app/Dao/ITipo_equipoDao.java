@@ -26,6 +26,12 @@ public interface ITipo_equipoDao extends CrudRepository<Tipo_equipo, Long> {
     		+"WHERE t.id_Tipo_equipo=?1")
     public List<Equipo> findEquiposbyTipoEquipo(Long id);
     
+    @Query("SELECT t FROM Tipo_equipo t "+
+    		"INNER JOIN Equipo e ON e.tipo_equipo.id_Tipo_equipo = t.id_Tipo_equipo "
+    		+"GROUP BY t.id_Tipo_equipo ORDER BY t.id_Tipo_equipo ASC")
+    public List<Tipo_equipo> listTiposconEquipos();
+    
+    
     
     @Query("SELECT t FROM Tipo_equipo t "+
     	    "INNER JOIN Equipo e ON e.tipo_equipo.id_Tipo_equipo=t.id_Tipo_equipo "

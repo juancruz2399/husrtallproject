@@ -189,7 +189,7 @@
                 Más
               </button>
               
-              <button sec:authorize= "hasAnyAuthority('ADMIN','EDITOR')" th:onclick= "'window.location.href = \''+@{/editreporteotro/}+${reporte.id_Reporte}+'\''" type = "button"class = "btn btn-success">Editar</button>
+              <button sec:authorize= "hasAnyAuthority('ADMIN','EDITOR')" th:onclick= "'window.location.href = \''+@{/editreporte/}+${reporte.id_Reporte}+'\''" type = "button"class = "btn btn-success">Editar</button>
 
 
               <!-- Modal -->

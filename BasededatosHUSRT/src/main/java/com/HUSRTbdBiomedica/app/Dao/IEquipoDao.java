@@ -29,7 +29,7 @@ public interface IEquipoDao extends CrudRepository<Equipo, Long> {
     @Query("SELECT COUNT(e) from Equipo e WHERE e.Periodicidad=1")
     public int countAnual();
     
-    @Query("SELECT COUNT(e) from Equipo e GROUP BY e.tipo_equipo.id_Tipo_equipo")
+    @Query("SELECT COUNT(e) from Equipo e GROUP BY e.tipo_equipo.id_Tipo_equipo ORDER BY e.tipo_equipo.id_Tipo_equipo")
     public List<Integer> countbyTiposEquipo();
 
        

@@ -76,10 +76,10 @@ public class ProtocoloController {
 		}
 		else {
 			List<Protocolo_preventivo> protocolos_preventivo = new ArrayList<Protocolo_preventivo>();
-			if(id==540) {
+			if(id.equals(662L)) {
 				protocolos_preventivo = Protocolo_preventivoService.protocoloexcepcion(equipo.getTipo_equipo().getId_Tipo_equipo());
 			}
-			else if(id==414) {
+			else if(id.equals(416L)) {
 				protocolos_preventivo = Protocolo_preventivoService.protocoloexcepcion(equipo.getTipo_equipo().getId_Tipo_equipo());
 				
 			}
@@ -139,10 +139,10 @@ public class ProtocoloController {
 			
 			
 			List<Protocolo_preventivo> protocolos_preventivo = new ArrayList<Protocolo_preventivo>();
-			if(id==540) {
+			if(id==662L) {
 				protocolos_preventivo = Protocolo_preventivoService.protocoloexcepcion(equipo.getTipo_equipo().getId_Tipo_equipo());
 			}
-			else if(id==414) {
+			else if(id==416L) {
 				protocolos_preventivo = Protocolo_preventivoService.protocoloexcepcion(equipo.getTipo_equipo().getId_Tipo_equipo());
 				
 			}
@@ -301,10 +301,10 @@ public class ProtocoloController {
 		for(int e = 0;e<equipos.size();e++) {
 
 			id = equipos.get(e).getId_Equipo();
-			if(id.equals(540L)) {
+			if(id.equals(662L)) {
 				protocolos.add(Protocolo_preventivoService.protocoloexcepcion(equipos.get(e).getTipo_equipo().getId_Tipo_equipo()));
 			}
-			else if(id.equals(414L)) {
+			else if(id.equals(416L)) {
 				protocolos.add(Protocolo_preventivoService.protocoloexcepcion(equipos.get(e).getTipo_equipo().getId_Tipo_equipo()));
 				
 			}

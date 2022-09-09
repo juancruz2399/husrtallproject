@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.*;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -30,8 +32,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -48,6 +52,8 @@ import com.HUSRTbdBiomedica.service.IProtocolo_preventivoService;
 import com.HUSRTbdBiomedica.service.IReporteService;
 import com.HUSRTbdBiomedica.service.ITipo_equipoService;
 import com.HUSRTbdBiomedica.service.PdfGenarator;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lowagie.text.DocumentException;
 
 @Controller
@@ -371,7 +377,12 @@ public class ReporteController {
 		model.addAttribute("horallamado",reporte.getHora_llamado());
 		model.addAttribute("horainicio",reporte.getHora_inicio());
 		model.addAttribute("horaterminacion",reporte.getHora_terminacion());
-		return "nuevoreportedit";
+		if(equipo.getId_Equipo()!=11111L) {
+			return "nuevoreportedit";
+		}
+		else {
+			return "nuevoreporteditotro";
+		}
 	}
     @PostMapping(value="/nuevoreportedit/{id}")
     public String guardarnuevoreportedit(@PathVariable Long id,@RequestParam(value="fecha")String fecha,
@@ -418,14 +429,16 @@ public class ReporteController {
     	
     	reporte.setEquipo(equipo);
     	
+    	if(equipo.getId_Equipo()!=11111L) {
+    		reporte.setNombre_equipo(equipo.getNombre_Equipo());
+        	reporte.setMarca(equipo.getMarca());
+        	reporte.setModelo(equipo.getModelo());
+        	reporte.setSerie(equipo.getSerie());
+        	reporte.setPlaca_inventario(equipo.getPlaca_inventario());
+        	reporte.setServicio(equipo.getServicios());
+        	reporte.setUbicacion(equipo.getUbicacion());
+    	}
     	
-    	reporte.setNombre_equipo(equipo.getNombre_Equipo());
-    	reporte.setMarca(equipo.getMarca());
-    	reporte.setModelo(equipo.getModelo());
-    	reporte.setSerie(equipo.getSerie());
-    	reporte.setPlaca_inventario(equipo.getPlaca_inventario());
-    	reporte.setServicio(equipo.getServicios());
-    	reporte.setUbicacion(equipo.getUbicacion());
     	ReporteService.save(reporte);
     	
     	status.setComplete();
@@ -434,8 +447,12 @@ public class ReporteController {
     	flash.addFlashAttribute("agregado","Reporte agregado correctamente");
     	flash.addFlashAttribute("nombreequipo",equipo.getNombre_Equipo());
     	flash.addFlashAttribute("serieequipo",equipo.getSerie());
-    	
-    	return "redirect:/visualizacionreportes/"+equipo.getId_Equipo();
+    	if(equipo.getId_Equipo()!=11111L) {
+    		return "redirect:/visualizacionreportes/"+equipo.getId_Equipo();
+    	}
+    	else {
+    		return "redirect:/visualizacionotrosreportes";
+    	}
     	
     }
     @PostMapping(value="/nuevoreporte/{id}")
@@ -494,7 +511,6 @@ public class ReporteController {
 		String numr = Long.toString(ReporteService.LastIdReporte()+20001);
 		reporte.setNumero_reporte(numr);
     	
-    	
     	ReporteService.save(reporte);
     	
     	status.setComplete();
@@ -507,5 +523,16 @@ public class ReporteController {
     	return "redirect:/visualizacionreportes/"+equipo.getId_Equipo();
     	
     }
+    @PostMapping("/reporteselect")
+    public List<Reporte> saveSelected(@RequestBody JSONObject params){
+    
+    	List<Reporte> reportes = new ArrayList<Reporte>();
+    	reportes.add(ReporteService.findOne(10L));
+    	System.out.println(params.getString("username"));
+    	return reportes;
+    }
     
 }
+
+
+

@@ -6,6 +6,8 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+	<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Mantenimientos</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/carousel/">
@@ -21,6 +23,12 @@
 <script th:src = "@{/js/chart.js}"></script>
 
     <style>
+	    .modal-body{
+		  height: 200px;
+		  width: 100%;
+		  overflow-y: auto;
+		  overflow-x: auto;
+		}
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -354,6 +362,50 @@
           	<p class = "lead" >Seleccione el técnico para observar sus estadísticas</p>
           		<div class = "col-md-6">
           			<canvas id="donutmttos" width = "50" height = "50"></canvas>
+          		
+					<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		                <div class="modal-dialog modal-xl"role="document">
+		                  <div class="modal-content">
+		                    <div class="modal-header">
+		                      <h5 class="modal-title"  id = "titlemodal"></h5>
+		                      <button type="button" id=  "xmodal"class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+		                    </div>
+		                    <div class="modal-body">
+		                    	<div class="table-responsive">
+			            			<table class="table table-sm">
+				            			<thead class = "table-secondary">
+				            				<tr>
+				            					<th scope = "col">Nombre</th>
+				            					<th scope = "col">Marca</th>
+				            					<th scope = "col">Modelo</th>
+				            					<th scope = "col">Serie</th>
+				            					<th scope = "col">Servicio</th>
+				            					
+				            					<th scope = "col">Falla</th>
+				            					<th scope = "col">Trabajo</th>
+				            					<th scope = "col">Fecha</th>
+				            					<th scope = "col">Reporte</th>
+				            				</tr>
+				            			</thead>
+				            			<tbody id = "table">
+				            				<tr>
+				            				</tr>
+				            				
+				            			</tbody>
+			            			</table>
+			            		</div>
+		                   
+					    	
+		                        
+		                    </div>
+		                    <div class="modal-footer">
+		                      <button type="button" id=  "closemodal"class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+		                                                
+		                    
+		                  </div>
+		                </div>
+		             </div>
+					</div>
           			<p align="center" class = "lead mb-3"> Tiempo invertido en los mantenimientos según tipo de mantenimiento</p>
           			<div class = "table-responsive">
           				<table class = "table table-sm">
@@ -484,7 +536,7 @@
   </div>
 </div>
 </form>
-<script th:inline = "javascript">
+<script th:inline = "javascript" type = "text/javascript">
 /*<![CDATA[*/
 	var correctivo = /*[[${indicorrec}]]*/ 'default';
 	var predictivo = /*[[${indipredic}]]*/ 'default';
@@ -500,11 +552,11 @@
 	
 	let milena = ['CLAUDIA MILENA QUEVEDO','MILENA QUEVEDO'];
 	let manuel = ['MANUEL LÓPEZ','MANUEL LOPEZ','MANUEL RICARDO LÓPEZ','MANUEL RICARDO LÓPEZ'];
-	let german = ['GERMÁN CRUZ','GERMAN CRUZ','GERNÁN CRUZ','GERMÁN CRUZ SALAS','GERMAN CRUZ SALAS'];
+	let german = ['GERMÁN CRUZ','GERMAN  CRUZ','GERMÁN  CRUZ','GERMAN CRUZ','GERNÁN CRUZ','GERMÁN CRUZ SALAS','GERMAN CRUZ SALAS'];
 	let miguel = ['MIGUEL SANCHEZ','MIGUEL ANTONIO SANCHEZ','MIGUEL SÁNCHEZ','MIGUEL ANTONIO SÁNCHEZ'];
 	let wilson = ['WILSÓN CAMARGO','WILSON CAMARGO','WILSON CÁMARGO'];
 	let cesar = ['CESAR AUGUSTO SUAREZ','CESAR SUAREZ'];
-	let enrique = ['ENRIQUE BAUTISTA','ENRIQUE BAUTISTA LÓPEZ'];
+
 	let germanp = ['GERMÁN PUERTO','GERMÁN DARIO PUERTO'];
 	
 	function myFunction(){
@@ -551,11 +603,16 @@
 		
 		
 		var mcorrectivo = 0;
+		var mcorrectivocolectivo = 0;
 		var timetotalcorrectivo = 0;
+		var timetotalcorrectivocolectivo = 0;
+		
 		var timetotalpreventivo = 0;
 		var timetotalpredictivo = 0;
 		var timetotalotros = 0;
 		var timellamadocorrectivo = 0;
+		var timellamadocorrectivocolectivo = 0;
+		
 		var timellamadopredictivo = 0;
 		var timellamadootros = 0;
 		var timedesgaste = 0;
@@ -578,15 +635,38 @@
 		var fsinfallas = 0;
 		var fotros = 0;
 		var nombre = null;
+		var reportescid = [];
+		var reportesccid = [];
+		var reportespdid = [];
+		var reportespvid = [];
+		var reportesoid = [];
+		var reportesdesid = [];
+		var reportesopid = [];
+		var reportesaccid = [];
+		var reportesceid = [];
+		var reportesunkid = [];
+		var reporteswfid = [];
+		var reportesofid = [];
+		var reportid = [reportescid,reportesccid,reportespdid,reportespvid,reportesoid,reportesdesid,reportesopid,reportesaccid,reportesceid,reportesunkid,reporteswfid,reportesofid];
 		if (tecnico==4){
 			nombre = german[0];
 			for(mc of correctivo){
+				
 				mcor = mc.split(',');
+				
 				for(gc of german){
-					if(mcor[4].indexOf(gc)==0){
+					if(mcor[4].indexOf(gc)==0 && mcor[4].trim()==gc){
 						mcorrectivo+=1;
+						reportescid.push(mcor);
 						timetotalcorrectivo+=parseInt(mcor[5].split(':')[0],10)*60+parseInt(mcor[5].split(':')[1],10);
 						timellamadocorrectivo+= parseInt(mcor[1].split(':')[0],10)*60+parseInt(mcor[1].split(':')[1],10)-(parseInt(mcor[3].split(':')[0],10)*60+parseInt(mcor[3].split(':')[1],10));
+						break;
+					}
+					else if(mcor[4].indexOf(gc)!=-1){
+						mcorrectivocolectivo+=1;
+						reportesccid.push(mcor);
+						timetotalcorrectivocolectivo+=parseInt(mcor[5].split(':')[0],10)*60+parseInt(mcor[5].split(':')[1],10);
+						timellamadocorrectivocolectivo+= parseInt(mcor[1].split(':')[0],10)*60+parseInt(mcor[1].split(':')[1],10)-(parseInt(mcor[3].split(':')[0],10)*60+parseInt(mcor[3].split(':')[1],10));
 						break;
 					}
 				}
@@ -597,8 +677,10 @@
 			
 			for(mpd of predictivo){
 				mpred = mpd.split(',');
+				
 				for(gc of german){
 					if(mpred[4].indexOf(gc)==0){
+						reportespdid.push(mpred);
 						mpredictivo+=1;
 						timetotalpredictivo+=parseInt(mpred[5].split(':')[0],10)*60+parseInt(mpred[5].split(':')[1],10);
 						if(mpred[3]!='00:00:00'){
@@ -614,8 +696,11 @@
 			}
 			for(mpv of preventivo){
 				mprev = mpv.split(',');
+				
+		
 				for(gc of german){
 					if(mprev[4].indexOf(gc)==0){
+						reportespvid.push(mprev);
 						mpreventivo+=1;
 						timetotalpreventivo+= parseInt(mprev[5].split(':')[0],10)*60+parseInt(mprev[5].split(':')[1],10);
 						
@@ -626,8 +711,10 @@
 			}
 			for(mo of otrosmtto){
 				motro = mo.split(',');
+				
 				for(gc of german){
 					if(motro[4].indexOf(gc)==0){
+						reportesoid.push(motro);
 						motrosmtto+=1;
 						timetotalotros+= parseInt(motro[5].split(':')[0],10)*60+parseInt(motro[5].split(':')[1],10);
 						if(motro[3]!='00:00:00'){
@@ -754,12 +841,21 @@
 			nombre = manuel[0];
 			for(mc of correctivo){
 				mcor = mc.split(',');
+				
 				for(gc of manuel){
-					if(mcor[4].indexOf(gc)==0){
+				
+					if(mcor[4].indexOf(gc)==0 && mcor[4].trim()==gc){
 						mcorrectivo+=1;
+						reportescid.push(mcor);
 						timetotalcorrectivo+=parseInt(mcor[5].split(':')[0],10)*60+parseInt(mcor[5].split(':')[1],10);
 						timellamadocorrectivo+= parseInt(mcor[1].split(':')[0],10)*60+parseInt(mcor[1].split(':')[1],10)-(parseInt(mcor[3].split(':')[0],10)*60+parseInt(mcor[3].split(':')[1],10));
-						
+						break;
+					}
+					else if(mcor[4].indexOf(gc)!=-1){
+						mcorrectivocolectivo+=1;
+						reportesccid.push(mcor);
+						timetotalcorrectivocolectivo+=parseInt(mcor[5].split(':')[0],10)*60+parseInt(mcor[5].split(':')[1],10);
+						timellamadocorrectivocolectivo+= parseInt(mcor[1].split(':')[0],10)*60+parseInt(mcor[1].split(':')[1],10)-(parseInt(mcor[3].split(':')[0],10)*60+parseInt(mcor[3].split(':')[1],10));
 						break;
 					}
 				}
@@ -770,6 +866,7 @@
 				for(gc of manuel){
 					if(mpred[4].indexOf(gc)==0){
 						mpredictivo+=1;
+						reportespdid.push(mpred);
 						timetotalpredictivo+=parseInt(mpred[5].split(':')[0],10)*60+parseInt(mpred[5].split(':')[1],10);
 						if(mpred[3]!='00:00:00'){
 							mpredictivosinllamado+=1;
@@ -786,6 +883,7 @@
 				for(gc of manuel){
 					if(mprev[4].indexOf(gc)==0){
 						mpreventivo+=1;
+						reportespvid.push(mprev);
 						timetotalpreventivo+= parseInt(mprev[5].split(':')[0],10)*60+parseInt(mprev[5].split(':')[1],10);
 						break;
 					}
@@ -797,6 +895,7 @@
 				for(gc of manuel){
 					if(motro[4].indexOf(gc)==0){
 						motrosmtto+=1;
+						reportesoid.push(motro);
 						timetotalotros+= parseInt(motro[5].split(':')[0],10)*60+parseInt(motro[5].split(':')[1],10);
 						if(motro[3]!='00:00:00'){
 							motrossinllamado+=1;
@@ -922,12 +1021,19 @@
 			nombre = milena[0];
 			for(mc of correctivo){
 				mcor = mc.split(',');
-				for(gc of milena){
-					if(mcor[4].indexOf(gc)==0){
+				for(gc of milena){					
+					if(mcor[4].indexOf(gc)==0 && mcor[4].trim()==gc){
 						mcorrectivo+=1;
+						reportescid.push(mcor);
 						timetotalcorrectivo+=parseInt(mcor[5].split(':')[0],10)*60+parseInt(mcor[5].split(':')[1],10);
 						timellamadocorrectivo+= parseInt(mcor[1].split(':')[0],10)*60+parseInt(mcor[1].split(':')[1],10)-(parseInt(mcor[3].split(':')[0],10)*60+parseInt(mcor[3].split(':')[1],10));
-						
+						break;
+					}
+					else if(mcor[4].indexOf(gc)!=-1){
+						mcorrectivocolectivo+=1;
+						reportesccid.push(mcor);
+						timetotalcorrectivocolectivo+=parseInt(mcor[5].split(':')[0],10)*60+parseInt(mcor[5].split(':')[1],10);
+						timellamadocorrectivocolectivo+= parseInt(mcor[1].split(':')[0],10)*60+parseInt(mcor[1].split(':')[1],10)-(parseInt(mcor[3].split(':')[0],10)*60+parseInt(mcor[3].split(':')[1],10));
 						break;
 					}
 				}
@@ -937,6 +1043,7 @@
 				mpred = mpd.split(',');
 				for(gc of milena){
 					if(mpred[4].indexOf(gc)==0){
+						reportespdid.push(mpred);
 						mpredictivo+=1;
 						timetotalpredictivo+=parseInt(mpred[5].split(':')[0],10)*60+parseInt(mpred[5].split(':')[1],10);
 						if(mpred[3]!='00:00:00'){
@@ -954,6 +1061,7 @@
 				for(gc of milena){
 					if(mprev[4].indexOf(gc)==0){
 						mpreventivo+=1;
+						reportespvid.push(mprev);
 						timetotalpreventivo+= parseInt(mprev[5].split(':')[0],10)*60+parseInt(mprev[5].split(':')[1],10);
 						break;
 					}
@@ -965,6 +1073,7 @@
 				for(gc of milena){
 					if(motro[4].indexOf(gc)==0){
 						motrosmtto+=1;
+						reportesoid.push(motro);
 						timetotalotros+= parseInt(motro[5].split(':')[0],10)*60+parseInt(motro[5].split(':')[1],10);
 						if(motro[3]!='00:00:00'){
 							motrossinllamado+=1;
@@ -1091,11 +1200,19 @@
 			for(mc of correctivo){
 				mcor = mc.split(',');
 				for(gc of wilson){
-					if(mcor[4].indexOf(gc)==0){
+					
+					if(mcor[4].indexOf(gc)==0 && mcor[4].trim()==gc){
 						mcorrectivo+=1;
+						reportescid.push(mcor);
 						timetotalcorrectivo+=parseInt(mcor[5].split(':')[0],10)*60+parseInt(mcor[5].split(':')[1],10);
 						timellamadocorrectivo+= parseInt(mcor[1].split(':')[0],10)*60+parseInt(mcor[1].split(':')[1],10)-(parseInt(mcor[3].split(':')[0],10)*60+parseInt(mcor[3].split(':')[1],10));
-						
+						break;
+					}
+					else if(mcor[4].indexOf(gc)!=-1){
+						mcorrectivocolectivo+=1;
+						reportesccid.push(mcor);
+						timetotalcorrectivocolectivo+=parseInt(mcor[5].split(':')[0],10)*60+parseInt(mcor[5].split(':')[1],10);
+						timellamadocorrectivocolectivo+= parseInt(mcor[1].split(':')[0],10)*60+parseInt(mcor[1].split(':')[1],10)-(parseInt(mcor[3].split(':')[0],10)*60+parseInt(mcor[3].split(':')[1],10));
 						break;
 					}
 				}
@@ -1105,6 +1222,7 @@
 				mpred = mpd.split(',');
 				for(gc of wilson){
 					if(mpred[4].indexOf(gc)==0){
+						reportespdid.push(mpred);
 						mpredictivo+=1;
 						timetotalpredictivo+=parseInt(mpred[5].split(':')[0],10)*60+parseInt(mpred[5].split(':')[1],10);
 						if(mpred[3]!='00:00:00'){
@@ -1122,6 +1240,7 @@
 				for(gc of wilson){
 					if(mprev[4].indexOf(gc)==0){
 						mpreventivo+=1;
+						reportespvid.push(mprev);
 						timetotalpreventivo+= parseInt(mprev[5].split(':')[0],10)*60+parseInt(mprev[5].split(':')[1],10);
 						break;
 					}
@@ -1133,6 +1252,7 @@
 				for(gc of wilson){
 					if(motro[4].indexOf(gc)==0){
 						motrosmtto+=1;
+						reportesoid.push(motro);
 						timetotalotros+= parseInt(motro[5].split(':')[0],10)*60+parseInt(motro[5].split(':')[1],10);
 						if(motro[3]!='00:00:00'){
 							motrossinllamado+=1;
@@ -1258,12 +1378,22 @@
 			nombre = miguel[0];
 			for(mc of correctivo){
 				mcor = mc.split(',');
+				console.log(mcor[4]);
 				for(gc of miguel){
-					if(mcor[4].indexOf(gc)==0){
+					
+					
+					if(mcor[4].indexOf(gc)==0 && mcor[4].trim()==gc){
 						mcorrectivo+=1;
+						reportescid.push(mcor);
 						timetotalcorrectivo+=parseInt(mcor[5].split(':')[0],10)*60+parseInt(mcor[5].split(':')[1],10);
 						timellamadocorrectivo+= parseInt(mcor[1].split(':')[0],10)*60+parseInt(mcor[1].split(':')[1],10)-(parseInt(mcor[3].split(':')[0],10)*60+parseInt(mcor[3].split(':')[1],10));
-						
+						break;
+					}
+					else if(mcor[4].indexOf(gc)!=-1){
+						mcorrectivocolectivo+=1;
+						reportesccid.push(mcor);
+						timetotalcorrectivocolectivo+=parseInt(mcor[5].split(':')[0],10)*60+parseInt(mcor[5].split(':')[1],10);
+						timellamadocorrectivocolectivo+= parseInt(mcor[1].split(':')[0],10)*60+parseInt(mcor[1].split(':')[1],10)-(parseInt(mcor[3].split(':')[0],10)*60+parseInt(mcor[3].split(':')[1],10));
 						break;
 					}
 				}
@@ -1273,6 +1403,7 @@
 				mpred = mpd.split(',');
 				for(gc of miguel){
 					if(mpred[4].indexOf(gc)==0){
+						reportespdid.push(mpred);
 						mpredictivo+=1;
 						timetotalpredictivo+=parseInt(mpred[5].split(':')[0],10)*60+parseInt(mpred[5].split(':')[1],10);
 						if(mpred[3]!='00:00:00'){
@@ -1290,6 +1421,7 @@
 				for(gc of miguel){
 					if(mprev[4].indexOf(gc)==0){
 						mpreventivo+=1;
+						reportespvid.push(mprev);
 						timetotalpreventivo+= parseInt(mprev[5].split(':')[0],10)*60+parseInt(mprev[5].split(':')[1],10);
 						break;
 					}
@@ -1301,6 +1433,7 @@
 				for(gc of miguel){
 					if(motro[4].indexOf(gc)==0){
 						motrosmtto+=1;
+						reportesoid.push(motro);
 						timetotalotros+= parseInt(motro[5].split(':')[0],10)*60+parseInt(motro[5].split(':')[1],10);
 						if(motro[3]!='00:00:00'){
 							motrossinllamado+=1;
@@ -1422,17 +1555,17 @@
 			
 		}
 		else{
-			graphs(mpreventivo,mcorrectivo,mpredictivo,motrosmtto,nombre,fdesgaste,fopindebiba,faccesorios,fcausaexterna,fdesconocido,fsinfallas,fotros);
+			graphs(mpreventivo,mcorrectivo,mpredictivo,motrosmtto,nombre,fdesgaste,fopindebiba,faccesorios,fcausaexterna,fdesconocido,fsinfallas,fotros,mcorrectivocolectivo,reportid);
 			
 		}
-		graphs(mpreventivo,mcorrectivo,mpredictivo,motrosmtto,nombre,fdesgaste,fopindebiba,faccesorios,fcausaexterna,fdesconocido,fsinfallas,fotros);
+		graphs(mpreventivo,mcorrectivo,mpredictivo,motrosmtto,nombre,fdesgaste,fopindebiba,faccesorios,fcausaexterna,fdesconocido,fsinfallas,fotros,mcorrectivocolectivo,reportid);
 		
 		
 			
 	}
 	let chart;
 	let chart2;
-	function graphs(mpreven,mcorrect,mpredic,motrosmt,name,desgas,opind,acces,causeex,unknown,wfallas,otrosf){
+	function graphs(mpreven,mcorrect,mpredic,motrosmt,name,desgas,opind,acces,causeex,unknown,wfallas,otrosf,colectivoc,arrmtto){
 		var Mttos = document.getElementById("donutmttos").getContext("2d");
 		var Fmtto = document.getElementById("donutfallas").getContext("2d");
 		if(chart){
@@ -1444,11 +1577,11 @@
 		chart = new Chart(Mttos,{
 		type: "doughnut",
 		data:{
-			labels:['Preventivos','Correctivos','Predictivos','Otros    '],
+			labels:['Preventivos','Correctivos','Predictivos','Otros    ','Correctivos colectivos'],
 			datasets:[{
 					label:name,
-					data:[mpreven,mcorrect,mpredic,motrosmt],
-					backgroundColor:['rgb(59,131,189)','rgb(255,0,0)','rgb(0,143,57)','rgb(255,164,32)'],
+					data:[mpreven,mcorrect,mpredic,motrosmt,colectivoc],
+					backgroundColor:['rgb(59,131,189)','rgb(255,0,0)','rgb(0,143,57)','rgb(255,164,32)','rgb(140,0,75)'],
 					hoverOffset:4
 					
 				}]
@@ -1466,11 +1599,78 @@
 					
 				}]
 			}
+		
+		
 		});
+		
+		document.getElementById("donutmttos").onclick = function(evt) {
+			
+            var activePoints = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+            var tablamtto= document.getElementById('table')
+			tablamtto.innerHTML = '';
+            var titlemodal = document.getElementById("titlemodal")
+            var firstPoint = activePoints[0];
+            var indexP = firstPoint.index;
+            var arraysend = [];
+           	titlemodal.innerHTML = chart.data.labels[firstPoint.index];
+            if (indexP ==0){
+				arraysend = arrmtto[3];
+				
+			}
+			else if(indexP ==1){
+				arraysend = arrmtto[0];
+				
+			}
+			else if(indexP ==2){
+				arraysend = arrmtto[2];
+			}
+			else if(indexP == 3){
+				arraysend = arrmtto[4];
+			}
+			else{
+				arraysend = arrmtto[1];
+			}
+			console.log(arraysend)
+			for(mtto of arraysend){
+				tablamtto.innerHTML+=`
+							<tr>
+								<td>${mtto[7]}</td>
+								<td>${mtto[8]}</td>
+								<td>${mtto[9]}</td>
+								<td>${mtto[10]}</td>
+								<td>${mtto[12]}</td>
+								<td>${mtto[13]}</td>
+								<td>${mtto[14]}</td>
+								<td>${mtto[0]}</td>
+								<td>
+									<a class = "btn btn-success" href="/formatoreporte/ ${mtto[6]}">Reporte</a>
+								</td>
+							
+							</tr>
+						`
+			}
+			document.getElementById('myModal').style.display = 'block';
+			
+			console.log(firstPoint.index)
+           	console.log(chart.data.labels[firstPoint.index])
+			console.log(chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index])
+       		
+        };
+	
+	
 	
 	
 	}	
 
+
+	$("#closemodal").click(function(){
+	  document.getElementById('myModal').style.display = 'none';
+
+	});
+	$("#xmodal").click(function(){
+	  document.getElementById('myModal').style.display = 'none';
+
+	});
 	 
 	$(function(){
         $('input[name="daterange"]').daterangepicker({
@@ -1478,8 +1678,10 @@
 
       });
     
+    
 /*]]>*/
 </script>
+
   <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </main>
 </body>

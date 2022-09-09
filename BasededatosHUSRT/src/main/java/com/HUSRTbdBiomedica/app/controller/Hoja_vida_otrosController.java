@@ -121,45 +121,41 @@ public class Hoja_vida_otrosController {
             RedirectAttributes flash) {
 		Reporte reporte  = ReporteService.findOne(id);
 		Equipo equipo= reporte.getEquipo();
-    	
-    	model.addAttribute("serieequipo",equipo.getSerie());
-    	model.addAttribute("placa",equipo.getPlaca_inventario());
-    	model.addAttribute("servicioequipo",equipo.getServicios());
-    	model.addAttribute("idequipo",equipo.getId_Equipo());
-    	model.addAttribute("ubicacionequipo",equipo.getUbicacion());
-    	model.addAttribute("tipoequipo",equipo.getTipo_equipo());
-    	model.addAttribute("nombreequipo",equipo.getNombre_Equipo());
-    	model.addAttribute("periodicidad",equipo.getPeriodicidad());
+		model.addAttribute("idequipo",equipo.getId_Equipo());
     	map.put("reporte", reporte);
     
-    	model.addAttribute("equipo", equipo);
     	
     	model.addAttribute("numeroreporte",reporte.getNumero_reporte());		
-		
+    	System.out.println(reporte.getNumero_reporte());
 		model.addAttribute("fecha",reporte.getFecha());
 		model.addAttribute("horallamado",reporte.getHora_llamado());
 		model.addAttribute("horainicio",reporte.getHora_inicio());
 		model.addAttribute("horaterminacion",reporte.getHora_terminacion());
+		
+		
 		return "nuevoreporteditotro";
 	}
-	@PostMapping(value="/editreporteotro")
-    public String guardarnuevoreporteditotro(@RequestParam(value="fecha")String fecha,
-    		@RequestParam(value="hora_llamado",defaultValue = "00:00")String hora_llamado,
-    		@RequestParam(value="hora_inicio",defaultValue = "00:00")String hora_inicio,
-    		@RequestParam(value = "hora_finalizacion",defaultValue = "00:00")String hora_finalizacion,
-    		@Valid Reporte reporte,
-    								  BindingResult result,
-    								  Model model,
-    								  RedirectAttributes flash,
-    								  SessionStatus status) {
+	@PostMapping(value="/editreporteotro/{id}")
+    public String guardarnuevoreporteditotro(
+    		@PathVariable Long id,@RequestParam(value="fecha")String fecha,
+    	    		@RequestParam(value="hora_llamado",defaultValue = "00:00")String hora_llamado,
+    	    		@RequestParam(value="hora_inicio",defaultValue = "00:00")String hora_inicio,
+    	    		@RequestParam(value = "hora_finalizacion",defaultValue = "00:00")String hora_finalizacion,
+    	    		@Valid Reporte reporte,
+    	    								  BindingResult result,
+    	    								  Model model,
+    	    								  RedirectAttributes flash,
+    	    								  SessionStatus status)  {
     	
     	
-    	Equipo equipo = EquipoService.findOne(11111L);
-        
+		Equipo equipo = EquipoService.findOne(id);
+    	System.out.println(reporte.getNumero_reporte());
+    	System.out.println(reporte.getNombre_equipo());
     	LocalDate fechareporte = LocalDate.parse(fecha);
     	Date fechaas = Date.valueOf(fechareporte);
     	
     	reporte.setFecha(fechaas);
+    
     	
     	String hora1 = hora_llamado; 
     	
@@ -182,29 +178,19 @@ public class Hoja_vida_otrosController {
     	Time totalhoras = Time.valueOf(thora);
     	
     	reporte.setTotal_horas(totalhoras);
-    	
-    	
+
     	
     	reporte.setEquipo(equipo);
-    	
-    	
-    	reporte.setNombre_equipo(equipo.getNombre_Equipo());
-    	reporte.setMarca(equipo.getMarca());
-    	reporte.setModelo(equipo.getModelo());
-    	reporte.setSerie(equipo.getSerie());
-    	reporte.setPlaca_inventario(equipo.getPlaca_inventario());
-    	reporte.setServicio(equipo.getServicios());
-    	reporte.setUbicacion(equipo.getUbicacion());
+
     	ReporteService.save(reporte);
     	
     	status.setComplete();
     	
     	
     	flash.addFlashAttribute("agregado","Reporte agregado correctamente");
-    	flash.addFlashAttribute("nombreequipo",equipo.getNombre_Equipo());
-    	flash.addFlashAttribute("serieequipo",equipo.getSerie());
+   
     	
-    	return "redirect:/visualizacionreportes/"+equipo.getId_Equipo();
+    	return "producto";
     	
     }
 	@GetMapping("/nuevoreporteotro")

@@ -75,7 +75,7 @@
       <h2>Nuevo reporte</h2>
       <p class="lead">Complete los datos correspondientes</p>
     </div>
- <form class="needs-validation" validate th:action="@{/editreporteotro}"th:object="${reporte}"method="post">  
+ <form class="needs-validation" validate th:action="@{/nuevoreportedit/}+${idequipo}"th:object="${reporte}"method="post">  
     
     <div class="row g-3 mb-3">
       <div class="col-md-5 col-lg-4 order-md-last">
@@ -153,7 +153,7 @@
             </div>
             <div class = "col-7">
             	<label for = "fechareport" class = "mb-2">Fecha</label>
-            	<input th:name="fecha" type = "date"id="fechareport" class = "form-control" required>
+            	<input th:name="fecha" type = "date"id="date" class = "form-control" required>
             </div>
             
             
@@ -251,6 +251,10 @@
             </div>
 			<div class = "row">
 				<div class="col-md-6">
+		            <h4 class="mb-3">Motivo del llamado</h4>
+		            <textarea class="form-control" rows ="3"onkeyup="mayus(this);" th:field="*{Motivo}" required></textarea>
+				</div>
+				<div class="col-md-6">
 		            <h4 class="mb-3">Trabajo realizado</h4>
 		            <textarea class="form-control" rows ="3"onkeyup="mayus(this);" th:field="*{Trabajo_realizado}" required></textarea>
 				</div>
@@ -327,12 +331,52 @@
     
   </footer>
 </div>
-<script>
+<script th:inline = "javascript">
+/*<![CDATA[*/
 
+var fecha = /*[[${fecha}]]*/ 'default';
+var hll = /*[[${horallamado}]]*/ 'default';
+var hi = /*[[${horainicio}]]*/ 'default';
+var ht = /*[[${horaterminacion}]]*/ 'default';
+
+var dateinput = document.getElementById("date");
+
+var hllinput = document.getElementById("llamadotime");
+var hiinput = document.getElementById("input_starttime");
+var htinput = document.getElementById("input_finaltime");
+
+dateinput.value = fecha;
+hllinput.value = hll;
+hiinput.value = hi;
+htinput.value = ht;
 
 $("#tfs").hide();
 $("#tfslabel").hide();
-
+var autores = ['CLAUDIA MILENA QUEVEDO','MILENA QUEVEDO','MANUEL LÓPEZ','MANUEL LOPEZ',
+'MANUEL RICARDO LÓPEZ','MANUEL RICARDO LÓPEZ','GERMÁN CRUZ','GERMAN CRUZ','GERNÁN CRUZ','GERMÁN CRUZ SALAS',
+'GERMAN CRUZ SALAS','MIGUEL SANCHEZ','MIGUEL ANTONIO SANCHEZ','WILSÓN CAMARGO','WILSON CAMARGO','WILSON CÁMARGO',
+'CESAR AUGUSTO SUAREZ','CESAR SUAREZ','ENRIQUE BAUTISTA','ENRIQUE BAUTISTA LÓPEZ','GERMÁN PUERTO','GERMÁN DARIO PUERTO'];
+function myFunction(){
+	
+	input = document.getElementById("myInput");
+	check = document.getElementById("realizado");
+	input.value = input.value.toUpperCase();
+	filter = input.value.toUpperCase();
+	
+	
+	for(i=0;i<autores.length;i++){
+		if(autores[i]===filter){
+			$("#realizado").prop("checked",true);
+			i = autores.length
+			
+		}
+		else{
+			$("#realizado").prop("checked",false);
+			
+		}
+		console.log(autores[i]===filter)
+	}
+	}
 
 $(document).ready(function(){
  $('#Correctivo').on('change',function(){

@@ -70,6 +70,12 @@ public class Tipo_equipoServiceImp implements ITipo_equipoService{
 	public Tipo_equipo findbyName(String name) {
 		return Tipo_equipoDao.findTipo_equipobyname(name);
 	}
+
+	@Override
+	public List<Tipo_equipo> findTiposconEquipo() {
+		// TODO Auto-generated method stub
+		return Tipo_equipoDao.listTiposconEquipos();
+	}
 	
 
 }
